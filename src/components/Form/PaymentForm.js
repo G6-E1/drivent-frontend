@@ -3,8 +3,11 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
+import Button from './Button';
+import { toast } from 'react-toastify';
+import Payment from 'payment';
 
-export default function PaymentForm() {
+export default function PaymentForm({ setIsPaid }) {
   const [cardInfo, setCardInfo] = useState({
     cvc: '',
     expiry: '',
@@ -24,6 +27,25 @@ export default function PaymentForm() {
     setCardInfo({ ...cardInfo, [name]: value });
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (
+      !Payment.fns.validateCardExpiry(cardInfo.expiry) ||
+      !Payment.fns.validateCardNumber(cardInfo.number) ||
+      !Payment.fns.validateCardCVC(cardInfo.cvc)
+    ) {
+      toast('Houve um erro ao finalizar seu pagamento');
+      return;
+    }
+
+    const cardIssuer = Payment.fns.cardType(cardInfo.number);
+
+    console.log(cardIssuer);
+    console.log('Submited');
+    setIsPaid(true);
+  }
+
   return (
     <CardPaymentForm>
       <Cards
@@ -34,7 +56,7 @@ export default function PaymentForm() {
         number={cardInfo.number}
       />
 
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit}>
         <InputMask
           mask="9999 9999 9999 9999"
           maskChar=""
@@ -42,9 +64,9 @@ export default function PaymentForm() {
           onFocus={handleInputFocus}
           value={cardInfo.number}
         >
-          {() => <NumberAndNameInput type="tel" maxLength="19" name="number" placeholder="Card Number" />}
+          {() => <NumberAndNameInput type="tel" maxLength="19" name="number" placeholder="Card Number" required />}
         </InputMask>
-        <span>E.g.: 49..., 51..., 36..., 37...</span>
+        <ExampleText>E.g.: 49..., 51..., 36..., 37...</ExampleText>
 
         <NumberAndNameInput
           type="text"
@@ -53,6 +75,7 @@ export default function PaymentForm() {
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           value={cardInfo.cardName}
+          required
         />
 
         <ExpiryAndCVCDiv>
@@ -63,7 +86,7 @@ export default function PaymentForm() {
             onFocus={handleInputFocus}
             value={cardInfo.expiry}
           >
-            {() => <ExpiryInput type="tel" maxLength="7" name="expiry" placeholder="Valid Thru" />}
+            {() => <ExpiryInput type="tel" maxLength="7" name="expiry" placeholder="Valid Thru" required />}
           </InputMask>
 
           <CVCInput
@@ -74,8 +97,13 @@ export default function PaymentForm() {
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             value={cardInfo.cvc}
+            required
           />
         </ExpiryAndCVCDiv>
+
+        <SubmitContainer>
+          <Button type="submit">Finalizar Pagamento</Button>
+        </SubmitContainer>
       </StyledForm>
     </CardPaymentForm>
   );
@@ -92,14 +120,14 @@ const StyledForm = styled.form`
 
   display: flex;
   flex-direction: column;
+`;
 
-  span {
-    margin-top: -13px;
-    margin-bottom: 15px;
+const ExampleText = styled.span`
+  margin-top: -13px;
+  margin-bottom: 15px;
 
-    font-size: 16px;
-    color: #999999;
-  }
+  font-size: 16px;
+  color: #999999;
 `;
 
 const Input = styled.input`
@@ -128,4 +156,14 @@ const ExpiryInput = styled(Input)`
 
 const CVCInput = styled(Input)`
   width: 117px;
+`;
+
+const SubmitContainer = styled.div`
+  margin-left: -318px;
+  margin-top: 40px;
+  width: 100%;
+
+  > button {
+    margin-top: 0px;
+  }
 `;

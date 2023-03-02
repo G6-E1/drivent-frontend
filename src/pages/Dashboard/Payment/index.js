@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import PaymentConfirmedElement from '../../../components/Dashboard/Payment';
 import PaymentForm from '../../../components/Form/PaymentForm';
 
 export default function Payment() {
+  const [isPaid, setIsPaid] = useState(false);
+
   return (
     <PaymentCardInfo>
       <Subtitle>Pagamento</Subtitle>
-      <PaymentForm />
+      {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
     </PaymentCardInfo>
   );
 }
@@ -13,6 +17,8 @@ export default function Payment() {
 const PaymentCardInfo = styled.div`
   display: flex;
   flex-direction: column;
+
+  font-family: 'Roboto', sans-serif;
 `;
 
 const Subtitle = styled.h2`
