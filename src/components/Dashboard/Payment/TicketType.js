@@ -13,7 +13,6 @@ export default function TicketType() {
   const [price, setPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
 
-  console.log(price);
   return (
     <>
       <Subtitle>Primeiro, escolha sua modadelidade de ingresso</Subtitle>
@@ -104,7 +103,6 @@ const ButtonToggle = styled.button`
   ${({ active }) =>
     active &&
     `
-    opacity: 1;
     background-color:#FFEED2;
 
   `}
