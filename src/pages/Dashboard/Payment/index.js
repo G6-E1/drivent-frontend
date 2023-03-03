@@ -2,8 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import PaymentConfirmedElement from '../../../components/Dashboard/Payment';
 import PaymentForm from '../../../components/Form/PaymentForm';
-
-import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import TicketType from '../../../components/Dashboard/Payment/TicketType';
 
@@ -12,15 +10,11 @@ export default function Payment() {
 
   return (
     <PaymentCardInfo>
+      <StyledTypography variant="h4">Ingressos e pagamento</StyledTypography>
+      <TicketType/>
       <Subtitle>Pagamento</Subtitle>
       {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
     </PaymentCardInfo>
-  );
-  return (
-    <>
-      <StyledTypography variant="h4">Ingressos e pagamento</StyledTypography>
-      <TicketType/>
-    </>
   );
 }
 
