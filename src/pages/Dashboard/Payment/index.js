@@ -24,7 +24,8 @@ export default function Payment() {
   }, []);
 
   if (ticketsTypes !== null) {
-    const remoteTicket = ticketsTypes.map((item) => item.isRemote === true)[0];
+    const remoteTicket = ticketsTypes.filter((item) => item.isRemote === true)[0];
+
     console.log(remoteTicket);
   }
 
@@ -33,7 +34,7 @@ export default function Payment() {
       <StyledTypography variant="h4">Ingressos e pagamento</StyledTypography>
       <TicketType />
       <Subtitle>Pagamento</Subtitle>
-      {/* <ReserveOnlineTicket price={100} display={'flex'} /> */}
+      {/* <ReserveOnlineTicket ticketType={ticketTypeRemote} price={100} display={'flex'} /> */}
       {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
     </PaymentCardInfo>
   );
