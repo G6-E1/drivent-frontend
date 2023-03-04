@@ -9,11 +9,16 @@ import ReserveOnlineTicket from '../../../components/Dashboard/ReserveOnlineTick
 import { getTicketsTypes } from '../../../services/ticketApi';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
+import { getAllTicketsTypes } from '../../../services/getTypes';
 
 export default function Payment() {
   const [isPaid, setIsPaid] = useState(false);
   const [isReserved, setIsReserved] = useState(false);
   const token = useToken();
+
+  const [remoteTicket, setRemoteTicket] = useState({});
+  const [presencialTicket, setPresencialTicket] = useState({});
+  const [presencialWithHotelTicket, setPresencialWithHotelTicket] = useState({});
 
   const [ticketsTypes, setTicketsTypes] = useState(null);
   useEffect(() => {
@@ -24,10 +29,14 @@ export default function Payment() {
       });
   }, []);
 
-  if (ticketsTypes !== null) {
-    const remoteTicket = ticketsTypes.map((item) => item.isRemote === true)[0];
-    console.log(remoteTicket);
-  }
+  useEffect(() => {
+    if (ticketsTypes !== null) {
+      const { remoteTicket, presencialTicket, presencialWithHotelTicket } = getAllTicketsTypes(ticketsTypes);
+      setRemoteTicket(remoteTicket);
+      setPresencialTicket(presencialTicket);
+      setPresencialWithHotelTicket(presencialWithHotelTicket);
+    }
+  }, [ticketsTypes]);
 
   return (
     <TicketAndPaymentContainer>
