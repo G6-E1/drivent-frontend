@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import useAsync from '../../hooks/useAsync';
 
-export default function ReserveOnlineTicket({ ticketType, display }) {
+export default function ReserveOnlineTicket({ ticketType, display, setIsReserved }) {
   const token = useToken();
 
   function createTicket() {
@@ -17,6 +17,7 @@ export default function ReserveOnlineTicket({ ticketType, display }) {
       .then((res) => {
         // Fazer aparecer o card de ingresso escolhido
         // Fazer aparecer o card de preenchimento de dados bancários
+        setIsReserved(true);
         toast('Ticket reservado com sucesso!');
       })
       .catch((e) => {

@@ -13,6 +13,7 @@ import { getAllTicketsTypes } from '../../../services/getTypes';
 
 export default function Payment() {
   const [isPaid, setIsPaid] = useState(false);
+  const [isReserved, setIsReserved] = useState(false);
   const token = useToken();
 
   const [remoteTicket, setRemoteTicket] = useState({});
@@ -38,17 +39,26 @@ export default function Payment() {
   }, [ticketsTypes]);
 
   return (
-    <PaymentCardInfo>
+    <TicketAndPaymentContainer>
       <StyledTypography variant="h4">Ingressos e pagamento</StyledTypography>
-      <TicketType />
-      <Subtitle>Pagamento</Subtitle>
-      <ReserveOnlineTicket ticketType={remoteTicket} display={'flex'} />
-      {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
-    </PaymentCardInfo>
+      {!isReserved && (
+        <>
+          <TicketType />
+          {/* <ReserveOnlineTicket price={100} display={'flex'} setIsReserved={setIsReserved} /> */}
+        </>
+      )}
+
+      {isReserved && (
+        <>
+          <Subtitle>Pagamento</Subtitle>
+          {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
+        </>
+      )}
+    </TicketAndPaymentContainer>
   );
 }
 
-const PaymentCardInfo = styled.div`
+const TicketAndPaymentContainer = styled.div`
   display: flex;
   flex-direction: column;
 
