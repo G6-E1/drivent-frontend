@@ -5,30 +5,19 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import useAsync from '../../hooks/useAsync';
 
-export default function ReserveOnlineTicket({ price, display }) {
+export default function ReserveOnlineTicket({ ticketType, display }) {
   const token = useToken();
-  const [ticketsTypes, setTicketsTypes] = useState(null);
-
-  useEffect(() => {
-    getTicketsTypes(token)
-      .then((res) => setTicketsTypes([...res]))
-      .catch((e) => {
-        toast('Não foi possível obter os tickets types');
-      });
-  }, []);
 
   function createTicket() {
     const body = {
-      ticketTypeId: ticketsTypes[0].id,
+      ticketTypeId: ticketType.id,
     };
-
-    alert('Clicado');
 
     reserveTicket(body, token)
       .then((res) => {
         // Fazer aparecer o card de ingresso escolhido
         // Fazer aparecer o card de preenchimento de dados bancários
-        alert('Ticket reservado com sucesso!');
+        toast('Ticket reservado com sucesso!');
       })
       .catch((e) => {
         toast('Não foi possível reservar o ingresso');
@@ -38,7 +27,7 @@ export default function ReserveOnlineTicket({ price, display }) {
   return (
     <Screen display={display}>
       <Feedback>
-        Fechado! O total ficou em <span>R$ {price}</span>. Agora é só confirmar:
+        Fechado! O total ficou em <span>R$ {ticketType.price}</span>. Agora é só confirmar:
       </Feedback>
       <Button onClick={createTicket}>reservar ingresso</Button>
     </Screen>
