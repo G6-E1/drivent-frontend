@@ -9,10 +9,15 @@ import ReserveOnlineTicket from '../../../components/Dashboard/ReserveOnlineTick
 import { getTicketsTypes } from '../../../services/ticketApi';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
+import { getAllTicketsTypes } from '../../../services/getTypes';
 
 export default function Payment() {
   const [isPaid, setIsPaid] = useState(false);
   const token = useToken();
+
+  const [remoteTicket, setRemoteTicket] = useState({});
+  const [presencialTicket, setPresencialTicket] = useState({});
+  const [presencialWithHotelTicket, setPresencialWithHotelTicket] = useState({});
 
   const [ticketsTypes, setTicketsTypes] = useState(null);
   useEffect(() => {
@@ -23,18 +28,21 @@ export default function Payment() {
       });
   }, []);
 
-  if (ticketsTypes !== null) {
-    const remoteTicket = ticketsTypes.filter((item) => item.isRemote === true)[0];
-
-    console.log(remoteTicket);
-  }
+  useEffect(() => {
+    if (ticketsTypes !== null) {
+      const { remoteTicket, presencialTicket, presencialWithHotelTicket } = getAllTicketsTypes(ticketsTypes);
+      setRemoteTicket(remoteTicket);
+      setPresencialTicket(presencialTicket);
+      setPresencialWithHotelTicket(presencialWithHotelTicket);
+    }
+  }, [ticketsTypes]);
 
   return (
     <PaymentCardInfo>
       <StyledTypography variant="h4">Ingressos e pagamento</StyledTypography>
       <TicketType />
       <Subtitle>Pagamento</Subtitle>
-      {/* <ReserveOnlineTicket ticketType={ticketTypeRemote} price={100} display={'flex'} /> */}
+      <ReserveOnlineTicket ticketType={remoteTicket} display={'flex'} />
       {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
     </PaymentCardInfo>
   );

@@ -9,3 +9,11 @@ export function getPresencialWithoutHotelTicketType(array) {
 export function getPresencialWithHotelTicketType(array) {
   return array.filter((item) => item.isRemote === false && item.includesHotel === true)[0];
 }
+
+export function getAllTicketsTypes(ticketsTypes) {
+  const remoteTicket = getRemoteTicketType(ticketsTypes);
+  const presencialTicket = getPresencialWithoutHotelTicketType(ticketsTypes);
+  const presencialWithHotelTicket = getPresencialWithHotelTicketType(ticketsTypes);
+
+  return { remoteTicket, presencialTicket, presencialWithHotelTicket };
+}
