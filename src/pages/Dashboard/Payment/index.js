@@ -5,18 +5,21 @@ import PaymentForm from '../../../components/Form/PaymentForm';
 import Typography from '@material-ui/core/Typography';
 import TicketType from '../../../components/Dashboard/Payment/TicketType';
 
-import reserveOnlineTicket from '/home/hugo/drivent-frontend/src/components/Dashboard/reserveOnlineTicket';
+import ReserveOnlineTicket from '../../../components/Dashboard/ReserveOnlineTicket';
 
 export default function Payment() {
   const [isPaid, setIsPaid] = useState(false);
 
   return (
-    <PaymentCardInfo>
-      <StyledTypography variant="h4">Ingressos e pagamento</StyledTypography>
-      <TicketType />
-      <Subtitle>Pagamento</Subtitle>
-      {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
-    </PaymentCardInfo>
+    <>
+      <ReserveOnlineTicket price={100} display={'flex'} />
+    </>
+    // <PaymentCardInfo>
+    //   <StyledTypography variant="h4">Ingressos e pagamento</StyledTypography>
+    //   <TicketType />
+    //   <Subtitle>Pagamento</Subtitle>
+    //   {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
+    // </PaymentCardInfo>
   );
 }
 

@@ -1,22 +1,38 @@
 import styled from 'styled-components';
-import { reserveTicket } from '../../services/ticketApi';
+import { reserveTicket, getTicketsTypes } from '../../services/ticketApi';
 import useToken from '../../hooks/useToken';
 import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import useAsync from '../../hooks/useAsync';
 
-export default async function reserveOnlineTicket(price, display) {
+export default function ReserveOnlineTicket({ price, display }) {
   const token = useToken();
-  const ticketTypeId = null;
+  const [ticketsTypes, setTicketsTypes] = useState(null);
+
+  useEffect(() => {
+    getTicketsTypes(token)
+      .then((res) => setTicketsTypes([...res]))
+      .catch((e) => {
+        toast('Não foi possível obter os tickets types');
+      });
+  }, []);
+
   function createTicket() {
     const body = {
-      ticketTypeId: ticketTypeId,
+      ticketTypeId: ticketsTypes[0].id,
     };
 
+    alert('Clicado');
+
     reserveTicket(body, token)
-      .then
-      // Fazer aparecer o card de ingresso escolhido
-      // Fazer aparecer o card de preenchimento de dados bancários
-      ()
-      .catch(toast('Não foi possível reservar o ingresso'));
+      .then((res) => {
+        // Fazer aparecer o card de ingresso escolhido
+        // Fazer aparecer o card de preenchimento de dados bancários
+        alert('Ticket reservado com sucesso!');
+      })
+      .catch((e) => {
+        toast('Não foi possível reservar o ingresso');
+      });
   }
 
   return (
