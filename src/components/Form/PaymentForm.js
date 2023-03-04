@@ -6,54 +6,85 @@ import InputMask from 'react-input-mask';
 import Button from './Button';
 import { toast } from 'react-toastify';
 import Payment from 'payment';
+import usePayTicket from '../../hooks/api/usePayTicket';
 
 export default function PaymentForm({ setIsPaid }) {
-  const [cardInfo, setCardInfo] = useState({
-    cvc: '',
-    expiry: '',
-    focus: '',
-    cardName: '',
+  const [cardData, setCardData] = useState({
+    issuer: '',
     number: '',
+    name: '',
+    expirationDate: '',
+    cvv: '',
   });
+  const [focusedInput, setFocusedInput] = useState('');
+  const { payTicketLoading, payTicket } = usePayTicket();
 
   function handleInputFocus(e) {
     const { name } = e.target;
-    setCardInfo({ ...cardInfo, focus: name });
+
+    if (name === 'cvv') {
+      setFocusedInput('cvc');
+      return;
+    }
+
+    setFocusedInput(name);
   }
 
   function handleInputChange(e) {
     const { name, value } = e.target;
 
-    setCardInfo({ ...cardInfo, [name]: value });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    if (
-      !Payment.fns.validateCardExpiry(cardInfo.expiry) ||
-      !Payment.fns.validateCardNumber(cardInfo.number) ||
-      !Payment.fns.validateCardCVC(cardInfo.cvc)
-    ) {
-      toast('Houve um erro ao finalizar seu pagamento');
+    if (name === 'name' && !value.match(/^[a-zA-Z\s]*$/) && value !== '') {
       return;
     }
 
-    const cardIssuer = Payment.fns.cardType(cardInfo.number);
+    if (name === 'number') {
+      let cardIssuer = Payment.fns.cardType(value);
+      if (cardIssuer === null) cardIssuer = 'Unknown';
 
-    console.log(cardIssuer);
-    console.log('Submited');
-    setIsPaid(true);
+      setCardData({ ...cardData, number: value, issuer: cardIssuer });
+      return;
+    }
+
+    setCardData({ ...cardData, [name]: value });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (
+      !Payment.fns.validateCardExpiry(cardData.expirationDate) ||
+      !Payment.fns.validateCardNumber(cardData.number) ||
+      !Payment.fns.validateCardCVC(cardData.cvv) ||
+      !cardData.name.match(/^[a-zA-Z\s]*$/) ||
+      cardData.name.trim().length === 0
+    ) {
+      toast('Dados invalidos!');
+      return;
+    }
+
+    try {
+      const body = {
+        ticketId: 1,
+        cardData,
+      };
+      await payTicket(body);
+
+      toast('Pagamento realizado com sucesso!');
+
+      setIsPaid(true);
+    } catch (err) {
+      toast('Não foi possível realizar o pagamento!');
+    }
   }
 
   return (
     <CardPaymentForm>
       <Cards
-        cvc={cardInfo.cvc}
-        expiry={cardInfo.expiry}
-        focused={cardInfo.focus}
-        name={cardInfo.cardName}
-        number={cardInfo.number}
+        cvc={cardData.cvv}
+        expiry={cardData.expirationDate}
+        focused={focusedInput}
+        name={cardData.name}
+        number={cardData.number}
       />
 
       <StyledForm onSubmit={handleSubmit}>
@@ -62,7 +93,7 @@ export default function PaymentForm({ setIsPaid }) {
           maskChar=""
           onChange={handleInputChange}
           onFocus={handleInputFocus}
-          value={cardInfo.number}
+          value={cardData.number}
         >
           {() => <NumberAndNameInput type="tel" maxLength="19" name="number" placeholder="Card Number" required />}
         </InputMask>
@@ -70,11 +101,11 @@ export default function PaymentForm({ setIsPaid }) {
 
         <NumberAndNameInput
           type="text"
-          name="cardName"
+          name="name"
           placeholder="Name"
           onChange={handleInputChange}
           onFocus={handleInputFocus}
-          value={cardInfo.cardName}
+          value={cardData.name}
           required
         />
 
@@ -84,25 +115,27 @@ export default function PaymentForm({ setIsPaid }) {
             maskChar=""
             onChange={handleInputChange}
             onFocus={handleInputFocus}
-            value={cardInfo.expiry}
+            value={cardData.expirationDate}
           >
-            {() => <ExpiryInput type="tel" maxLength="7" name="expiry" placeholder="Valid Thru" required />}
+            {() => <ExpiryInput type="tel" maxLength="7" name="expirationDate" placeholder="Valid Thru" required />}
           </InputMask>
 
           <CVCInput
             type="tel"
             maxLength="4"
-            name="cvc"
+            name="cvv"
             placeholder="CVC"
             onChange={handleInputChange}
             onFocus={handleInputFocus}
-            value={cardInfo.cvc}
+            value={cardData.cvv}
             required
           />
         </ExpiryAndCVCDiv>
 
         <SubmitContainer>
-          <Button type="submit">Finalizar Pagamento</Button>
+          <Button type="submit" disabled={payTicketLoading}>
+            Finalizar Pagamento
+          </Button>
         </SubmitContainer>
       </StyledForm>
     </CardPaymentForm>
