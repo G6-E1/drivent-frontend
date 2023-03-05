@@ -15,8 +15,6 @@ export default function ReserveOnlineTicket({ ticketType, setIsReserved }) {
 
     reserveTicket(body, token)
       .then((res) => {
-        // Fazer aparecer o card de ingresso escolhido
-        // Fazer aparecer o card de preenchimento de dados bancários
         setIsReserved(true);
         toast('Ticket reservado com sucesso!');
       })
