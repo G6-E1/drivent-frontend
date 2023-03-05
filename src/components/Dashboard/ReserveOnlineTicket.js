@@ -36,7 +36,8 @@ export default function ReserveOnlineTicket({ ticketType, display, setIsReserved
 }
 
 const Screen = styled.div`
-  display: ${(props) => props.display};
+  /* display: ${(props) => props.display}; */
+  display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 10px;

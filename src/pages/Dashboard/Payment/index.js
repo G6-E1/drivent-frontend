@@ -44,7 +44,7 @@ export default function Payment() {
       {!isReserved && (
         <>
           <TicketType />
-          {/* <ReserveOnlineTicket price={100} display={'flex'} setIsReserved={setIsReserved} /> */}
+          <ReserveOnlineTicket ticketType={remoteTicket} setIsReserved={setIsReserved} />
         </>
       )}
 
