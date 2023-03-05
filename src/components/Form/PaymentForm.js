@@ -7,8 +7,9 @@ import Button from './Button';
 import { toast } from 'react-toastify';
 import Payment from 'payment';
 import usePayTicket from '../../hooks/api/usePayTicket';
+import SummaryTicket from '../Dashboard/Payment/SummaryTicket';
 
-export default function PaymentForm({ setIsPaid }) {
+export default function PaymentForm({ setIsPaid, setIsReserved }) {
   const [cardData, setCardData] = useState({
     issuer: '',
     number: '',
@@ -77,70 +78,95 @@ export default function PaymentForm({ setIsPaid }) {
     }
   }
 
+  function back() {
+    setIsReserved(null);
+  }
+
   return (
-    <CardPaymentForm>
-      <Cards
-        cvc={cardData.cvv}
-        expiry={cardData.expirationDate}
-        focused={focusedInput}
-        name={cardData.name}
-        number={cardData.number}
-      />
-
-      <StyledForm onSubmit={handleSubmit}>
-        <InputMask
-          mask="9999 9999 9999 9999"
-          maskChar=""
-          onChange={handleInputChange}
-          onFocus={handleInputFocus}
-          value={cardData.number}
-        >
-          {() => <NumberAndNameInput type="tel" maxLength="19" name="number" placeholder="Card Number" required />}
-        </InputMask>
-        <ExampleText>E.g.: 49..., 51..., 36..., 37...</ExampleText>
-
-        <NumberAndNameInput
-          type="text"
-          name="name"
-          placeholder="Name"
-          onChange={handleInputChange}
-          onFocus={handleInputFocus}
-          value={cardData.name}
-          required
-        />
-
-        <ExpiryAndCVCDiv>
-          <InputMask
-            mask="99/9999"
-            maskChar=""
-            onChange={handleInputChange}
-            onFocus={handleInputFocus}
-            value={cardData.expirationDate}
-          >
-            {() => <ExpiryInput type="tel" maxLength="7" name="expirationDate" placeholder="Valid Thru" required />}
-          </InputMask>
-
-          <CVCInput
-            type="tel"
-            maxLength="4"
-            name="cvv"
-            placeholder="CVC"
-            onChange={handleInputChange}
-            onFocus={handleInputFocus}
-            value={cardData.cvv}
-            required
+    <Wrapper>
+      <Container>
+        <Subtitle>Ingresso escolhido</Subtitle>
+        <SummaryTicket />
+        <Subtitle>Pagamento</Subtitle>
+        <CardPaymentForm>
+          <Cards
+            cvc={cardData.cvv}
+            expiry={cardData.expirationDate}
+            focused={focusedInput}
+            name={cardData.name}
+            number={cardData.number}
           />
-        </ExpiryAndCVCDiv>
 
-        <SubmitContainer>
-          <Button type="submit" disabled={payTicketLoading}>
-            Finalizar Pagamento
-          </Button>
-        </SubmitContainer>
-      </StyledForm>
-    </CardPaymentForm>
+          <StyledForm onSubmit={handleSubmit}>
+            <InputMask
+              mask="9999 9999 9999 9999"
+              maskChar=""
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              value={cardData.number}
+            >
+              {() => <NumberAndNameInput type="tel" maxLength="19" name="number" placeholder="Card Number" required />}
+            </InputMask>
+            <ExampleText>E.g.: 49..., 51..., 36..., 37...</ExampleText>
+
+            <NumberAndNameInput
+              type="text"
+              name="name"
+              placeholder="Name"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              value={cardData.name}
+              required
+            />
+
+            <ExpiryAndCVCDiv>
+              <InputMask
+                mask="99/9999"
+                maskChar=""
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                value={cardData.expirationDate}
+              >
+                {() => <ExpiryInput type="tel" maxLength="7" name="expirationDate" placeholder="Valid Thru" required />}
+              </InputMask>
+
+              <CVCInput
+                type="tel"
+                maxLength="4"
+                name="cvv"
+                placeholder="CVC"
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                value={cardData.cvv}
+                required
+              />
+            </ExpiryAndCVCDiv>
+
+            <SubmitContainer>
+              <Button type="submit" disabled={payTicketLoading}>
+                Finalizar Pagamento
+              </Button>
+            </SubmitContainer>
+          </StyledForm>
+        </CardPaymentForm>
+      </Container>
+      <ion-icon onClick={back} name="return-down-back-outline"></ion-icon>
+    </Wrapper>
   );
 }
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+
+  ion-icon {
+    font-size: 50px;
+    align-self: flex-end;
+    cursor: pointer;
+  }
+`;
+
+const Container = styled.div``;
 
 const CardPaymentForm = styled.div`
   width: 670px;
@@ -199,4 +225,12 @@ const SubmitContainer = styled.div`
   > button {
     margin-top: 0px;
   }
+`;
+const Subtitle = styled.h2`
+  margin-bottom: 17px;
+
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23.44px;
+  color: #8e8e8e;
 `;

@@ -1,17 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getAllTicketsTypes } from '../../../services/getTypes';
+import ReserveOnlineTicket from './ReserveTicket';
 // import prices from './Prices';
 
-export default function TicketType() {
-  const modalityTypes = [{ name: 'Presencial', price: 250 }, { name: 'Online', price: 100 }];
-  const [modality, setModality] = useState(null);
-
-  const hotel = [{ name: 'Sem Hotel', price: 0 }, { name: 'Com Hotel', price: 350 }];
-  const [modalityHotel, setModalityHotel] = useState(null);
-
+export default function TicketType({ setIsReserved, ticketsTypes }) {
   const [isFinish, setIsFinish] = useState(false);
   const [price, setPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
+
+  const [remoteTicket, setRemoteTicket] = useState({});
+  const [presencialTicket, setPresencialTicket] = useState({});
+  const [presencialWithHotelTicket, setPresencialWithHotelTicket] = useState({});
+
+  const [modality, setModality] = useState(null);
+  const modalityTypes = [{ name: 'Presencial', price: presencialTicket?.price }, { name: 'Online', price: remoteTicket?.price }];
+  const hotel = [{ name: 'Sem Hotel', price: 0 }, { name: 'Com Hotel', price: presencialWithHotelTicket?.price - presencialTicket?.price }];
+  const [modalityHotel, setModalityHotel] = useState(null);
+
+  function defineModality(modality) {
+    if (modality === 'Online') {
+      return remoteTicket;
+    }
+
+    if (modality === 'Presencial') {
+      if (modalityHotel === 'Sem Hotel')
+        return presencialTicket;
+      return presencialWithHotelTicket;
+    }
+  }
+
+  useEffect(() => {
+    if (ticketsTypes !== null) {
+      const { remoteTicket, presencialTicket, presencialWithHotelTicket } = getAllTicketsTypes(ticketsTypes);
+      setRemoteTicket(remoteTicket);
+      setPresencialTicket(presencialTicket);
+      setPresencialWithHotelTicket(presencialWithHotelTicket);
+    }
+  }, [ticketsTypes]);
 
   return (
     <>
@@ -42,7 +68,7 @@ export default function TicketType() {
                 active={modalityHotel === type.name}
                 onClick={() => {
                   setModalityHotel(type.name);
-                  setFinalPrice (price + type.price);
+                  setFinalPrice(price + type.price);
                   setIsFinish(true);
                 }}
               >
@@ -54,8 +80,9 @@ export default function TicketType() {
         </>
       )}
 
-      {((modality === 'Online') || isFinish) &&(
-        <Subtitle>Fechado! O total ficou em <strong>R$ {finalPrice}</strong>. Agora é só confirmar:</Subtitle>
+      {((modality === 'Online') || isFinish) && (
+
+        <ReserveOnlineTicket setIsReserved={setIsReserved} ticketType={defineModality(modality)}/>
       )}
     </>
   );

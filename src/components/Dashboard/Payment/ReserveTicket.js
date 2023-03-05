@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { reserveTicket, getTicketsTypes } from '../../services/ticketApi';
-import useToken from '../../hooks/useToken';
+import { reserveTicket, getTicketsTypes } from '../../../services/ticketApi';
+import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
-import useAsync from '../../hooks/useAsync';
+import useAsync from '../../../hooks/useAsync';
 
-export default function ReserveOnlineTicket({ ticketType, display, setIsReserved }) {
+export default function ReserveOnlineTicket({ ticketType, setIsReserved }) {
   const token = useToken();
 
   function createTicket() {
@@ -26,9 +26,9 @@ export default function ReserveOnlineTicket({ ticketType, display, setIsReserved
   }
 
   return (
-    <Screen display={display}>
+    <Screen>
       <Feedback>
-        Fechado! O total ficou em <span>R$ {ticketType.price}</span>. Agora é só confirmar:
+        Fechado! O total ficou em <span>R$ {ticketType.price} </span>. Agora é só confirmar:
       </Feedback>
       <Button onClick={createTicket}>reservar ingresso</Button>
     </Screen>
@@ -36,7 +36,6 @@ export default function ReserveOnlineTicket({ ticketType, display, setIsReserved
 }
 
 const Screen = styled.div`
-  /* display: ${(props) => props.display}; */
   display: flex;
   flex-direction: column;
   gap: 20px;
