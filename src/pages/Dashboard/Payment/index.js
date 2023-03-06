@@ -16,10 +16,6 @@ export default function Payment() {
   const [isReserved, setIsReserved] = useState(null);
   const token = useToken();
 
-  // const [remoteTicket, setRemoteTicket] = useState({});
-  // const [presencialTicket, setPresencialTicket] = useState({});
-  // const [presencialWithHotelTicket, setPresencialWithHotelTicket] = useState({});
-
   const [ticketsTypes, setTicketsTypes] = useState(null);
   useEffect(() => {
     getTicketsTypes(token)
@@ -28,25 +24,14 @@ export default function Payment() {
         toast('Não foi possível obter os tickets types');
       });
 
-    getTicket(token)
-      .then((res) => {
-        if (res.status === 'RESERVED')
-          setIsReserved(true);
-        if (res.status === 'PAID') {
-          setIsReserved(true);
-          setIsPaid(true);
-        }
-      });
+    getTicket(token).then((res) => {
+      if (res.status === 'RESERVED') setIsReserved(true);
+      if (res.status === 'PAID') {
+        setIsReserved(true);
+        setIsPaid(true);
+      }
+    });
   }, []);
-
-  // useEffect(() => {
-  //   if (ticketsTypes !== null) {
-  //     const { remoteTicket, presencialTicket, presencialWithHotelTicket } = getAllTicketsTypes(ticketsTypes);
-  //     setRemoteTicket(remoteTicket);
-  //     setPresencialTicket(presencialTicket);
-  //     setPresencialWithHotelTicket(presencialWithHotelTicket);
-  //   }
-  // }, [ticketsTypes]);
 
   return (
     <TicketAndPaymentContainer>
@@ -54,13 +39,12 @@ export default function Payment() {
       {!isReserved && (
         <>
           <TicketType setIsReserved={setIsReserved} ticketsTypes={ticketsTypes} />
-
         </>
       )}
 
       {isReserved && (
         <>
-          {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} />}
+          {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} setIsReserved={setIsReserved} />}
         </>
       )}
     </TicketAndPaymentContainer>
