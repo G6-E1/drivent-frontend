@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useToken from '../../../hooks/useToken';
 import { getTicket } from '../../../services/ticketApi';
 
-export default function SummaryTicket() {
+export default function SummaryTicket({ setTicketId }) {
   const token = useToken();
   const [ticket, setTicket] = useState(null);
 
@@ -18,6 +18,8 @@ export default function SummaryTicket() {
         else if (!res.TicketType.isRemote && !res.TicketType.includeHotel) {
           setTicket({ name: 'Presencial + Com Hotel', value: res.TicketType.price });
         };
+
+        setTicketId(res.id);
         console.log(res);
       });
   }, []);
