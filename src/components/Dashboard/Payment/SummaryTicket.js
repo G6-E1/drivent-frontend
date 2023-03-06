@@ -16,6 +16,8 @@ export default function SummaryTicket({ setTicketId }) {
       } else if (!res.TicketType.isRemote && res.TicketType.includesHotel) {
         setTicket({ name: 'Presencial + Com Hotel', value: res.TicketType.price });
       }
+
+      setTicketId(res.id);
     });
   }, []);
 
