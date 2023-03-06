@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import PaymentConfirmedElement from '../../../components/Dashboard/Payment';
 import PaymentForm from '../../../components/Form/PaymentForm';
 import Typography from '@material-ui/core/Typography';
 import TicketType from '../../../components/Dashboard/Payment/TicketType';
@@ -44,7 +43,7 @@ export default function Payment() {
 
       {isReserved && (
         <>
-          {isPaid ? <PaymentConfirmedElement /> : <PaymentForm setIsPaid={setIsPaid} setIsReserved={setIsReserved} />}
+          <PaymentForm setIsReserved={setIsReserved} isPaid={isPaid} setIsPaid={setIsPaid} />
         </>
       )}
     </TicketAndPaymentContainer>
