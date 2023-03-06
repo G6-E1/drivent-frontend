@@ -14,8 +14,14 @@ export default function TicketType({ setIsReserved, ticketsTypes }) {
   const [presencialWithHotelTicket, setPresencialWithHotelTicket] = useState({});
 
   const [modality, setModality] = useState(null);
-  const modalityTypes = [{ name: 'Presencial', price: presencialTicket?.price }, { name: 'Online', price: remoteTicket?.price }];
-  const hotel = [{ name: 'Sem Hotel', price: 0 }, { name: 'Com Hotel', price: presencialWithHotelTicket?.price - presencialTicket?.price }];
+  const modalityTypes = [
+    { name: 'Presencial', price: presencialTicket?.price },
+    { name: 'Online', price: remoteTicket?.price },
+  ];
+  const hotel = [
+    { name: 'Sem Hotel', price: 0 },
+    { name: 'Com Hotel', price: presencialWithHotelTicket?.price - presencialTicket?.price },
+  ];
   const [modalityHotel, setModalityHotel] = useState(null);
 
   function defineModality(modality) {
@@ -24,8 +30,7 @@ export default function TicketType({ setIsReserved, ticketsTypes }) {
     }
 
     if (modality === 'Presencial') {
-      if (modalityHotel === 'Sem Hotel')
-        return presencialTicket;
+      if (modalityHotel === 'Sem Hotel') return presencialTicket;
       return presencialWithHotelTicket;
     }
   }
@@ -43,7 +48,7 @@ export default function TicketType({ setIsReserved, ticketsTypes }) {
     <>
       <Subtitle>Primeiro, escolha sua modadelidade de ingresso</Subtitle>
       <ButtonBoard>
-        {modalityTypes.map(type => (
+        {modalityTypes.map((type) => (
           <ButtonToggle
             key={type.name}
             active={modality === type.name}
@@ -62,7 +67,7 @@ export default function TicketType({ setIsReserved, ticketsTypes }) {
         <>
           <Subtitle>Ótimo! Agora escolha sua modalidade de hospedagem</Subtitle>
           <ButtonBoard>
-            {hotel.map(type => (
+            {hotel.map((type) => (
               <ButtonToggle
                 key={type.name}
                 active={modalityHotel === type.name}
@@ -80,9 +85,8 @@ export default function TicketType({ setIsReserved, ticketsTypes }) {
         </>
       )}
 
-      {((modality === 'Online') || isFinish) && (
-
-        <ReserveOnlineTicket setIsReserved={setIsReserved} ticketType={defineModality(modality)}/>
+      {(modality === 'Online' || isFinish) && (
+        <ReserveOnlineTicket setIsReserved={setIsReserved} ticketType={defineModality(modality)} />
       )}
     </>
   );
@@ -92,38 +96,37 @@ const Subtitle = styled.h1`
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  color: #8E8E8E;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: #8e8e8e;
 
   /* margin-top: 50px; */
   margin-bottom: 17px;
 `;
 const ButtonToggle = styled.button`
-  box-sizing:border-box;
+  box-sizing: border-box;
 
   width: 145px;
   height: 145px;
-  border: solid 1px #CECECE;
+  border: solid 1px #cecece;
   border-radius: 20px;
-  background-color:white;
+  background-color: white;
 
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  font-weight:400;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
   font-style: normal;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 
-
-  h1{
+  h1 {
     font-size: 16px;
     line-height: 19px;
     color: #454545;
   }
 
-  p{
-    font-size:14px;
+  p {
+    font-size: 14px;
     line-height: 16px;
     color: #898989;
   }
@@ -137,6 +140,5 @@ const ButtonToggle = styled.button`
 const ButtonBoard = styled.div`
   display: flex;
   gap: 24px;
-  box-sizing:border-box;
-
+  box-sizing: border-box;
 `;
