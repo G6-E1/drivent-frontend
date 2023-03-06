@@ -7,32 +7,29 @@ export default function SummaryTicket({ setTicketId }) {
   const [ticket, setTicket] = useState(null);
 
   useEffect(() => {
-    getTicket(token).
-      then((res) => {
-        if (res.TicketType.isRemote) {
-          setTicket({ name: 'Online', value: res.TicketType.price });
-        }
-        else if (!res.TicketType.isRemote && res.TicketType.includeHotel) {
-          setTicket({ name: 'Presencial + Sem Hotel', value: res.TicketType.price });
-        }
-        else if (!res.TicketType.isRemote && !res.TicketType.includeHotel) {
-          setTicket({ name: 'Presencial + Com Hotel', value: res.TicketType.price });
-        };
+    getTicket(token).then((res) => {
+      if (res.TicketType.isRemote) {
+        setTicket({ name: 'Online', value: res.TicketType.price });
+      } else if (!res.TicketType.isRemote && res.TicketType.includeHotel) {
+        setTicket({ name: 'Presencial + Sem Hotel', value: res.TicketType.price });
+      } else if (!res.TicketType.isRemote && !res.TicketType.includeHotel) {
+        setTicket({ name: 'Presencial + Com Hotel', value: res.TicketType.price });
+      }
 
-        setTicketId(res.id);
-        console.log(res);
-      });
+      setTicketId(res.id);
+      console.log(res);
+    });
   }, []);
 
   console.log(ticket);
   return (
     <>
-      {ticket &&
+      {ticket && (
         <>
-          <p>{ticket.name}</p> 
+          <p>{ticket.name}</p>
           <p>{ticket.value}</p>
-        </>}
-
+        </>
+      )}
     </>
   );
-};
+}
