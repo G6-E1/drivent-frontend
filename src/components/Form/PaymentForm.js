@@ -8,9 +8,9 @@ import CardInputForm from './CardInputForm';
 export default function PaymentForm({ setIsReserved, isPaid, setIsPaid }) {
   const [ticketId, setTicketId] = useState();
 
-  function back() {
-    setIsReserved(null);
-  }
+  // function back() {
+  //   setIsReserved(null);
+  // }
 
   return (
     <Wrapper>
@@ -20,7 +20,7 @@ export default function PaymentForm({ setIsReserved, isPaid, setIsPaid }) {
         <Subtitle>Pagamento</Subtitle>
         {isPaid ? <PaymentConfirmedElement /> : <CardInputForm setIsPaid={setIsPaid} ticketId={ticketId} />}
       </Container>
-      <ion-icon onClick={back} name="return-down-back-outline"></ion-icon>
+      {/* <ion-icon onClick={back} name="return-down-back-outline"></ion-icon> */}
     </Wrapper>
   );
 }
