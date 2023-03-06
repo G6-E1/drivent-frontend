@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useToken from '../../../hooks/useToken';
 import { getTicket } from '../../../services/ticketApi';
 
-export default function SummaryTicket() {
+export default function SummaryTicket({ setTicketId }) {
   const token = useToken();
   const [ticket, setTicket] = useState(null);
 

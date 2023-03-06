@@ -19,6 +19,7 @@ export default function PaymentForm({ setIsPaid, setIsReserved }) {
   });
   const [focusedInput, setFocusedInput] = useState('');
   const { payTicketLoading, payTicket } = usePayTicket();
+  const [ticketId, setTicketId] = useState();
 
   function handleInputFocus(e) {
     const { name } = e.target;
@@ -65,7 +66,7 @@ export default function PaymentForm({ setIsPaid, setIsReserved }) {
 
     try {
       const body = {
-        ticketId: 1,
+        ticketId: ticketId,
         cardData,
       };
       await payTicket(body);
@@ -86,7 +87,7 @@ export default function PaymentForm({ setIsPaid, setIsReserved }) {
     <Wrapper>
       <Container>
         <Subtitle>Ingresso escolhido</Subtitle>
-        <SummaryTicket />
+        <SummaryTicket setTicketId={setTicketId} />
         <Subtitle>Pagamento</Subtitle>
         <CardPaymentForm>
           <Cards
