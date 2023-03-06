@@ -158,7 +158,7 @@ export default function PaymentForm({ setIsPaid, setIsReserved }) {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 100px;
+  gap: 5px;
 
   ion-icon {
     font-size: 50px;
@@ -167,7 +167,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
 
 const CardPaymentForm = styled.div`
   width: 670px;
