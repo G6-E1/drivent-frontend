@@ -141,4 +141,5 @@ const ButtonBoard = styled.div`
   display: flex;
   gap: 24px;
   box-sizing: border-box;
+  margin-bottom: 25px;
 `;
