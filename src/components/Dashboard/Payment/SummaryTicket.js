@@ -18,7 +18,6 @@ export default function SummaryTicket() {
     });
   }, []);
 
-  console.log(ticket);
   return (
     <>
       {ticket && (
