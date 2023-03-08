@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-export default function Hotel({ children, background, imageUrl }) {
+export default function Hotel({ children, background, imageUrl, hotelName }) {
   return (
     <HotelCard background={background}>
       <img src={imageUrl} alt="Hotel" />
+      <span>{hotelName}</span>
       {children}
     </HotelCard>
   );

@@ -9,8 +9,8 @@ export default function SummaryRoom({ setShowSummaryRoom }) {
       <HotelCard
         background="yellow"
         imageUrl="https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"
+        hotelName="Driven Resort"
       >
-        <span>Driven Resort</span>
         <strong>Quarto reservado</strong>
         <p>101 (Double)</p>
         <strong>Pessoas no seu quarto</strong>
