@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
-export default function Hotel({ children, background }) {
-  return <HotelCard background={background}>{children}</HotelCard>;
+export default function Hotel({ children, background, imageUrl }) {
+  return (
+    <HotelCard background={background}>
+      <img src={imageUrl} alt="Hotel" />
+      {children}
+    </HotelCard>
+  );
 }
 
 const HotelCard = styled.div`
@@ -10,6 +15,7 @@ const HotelCard = styled.div`
   background-color: ${(props) => (props.background === 'yellow' ? '#FFEED2' : '#F1F1F1')};
   border-radius: 10px;
   padding: 15px;
+  margin-right: 19px;
 
   font-family: 'Roboto', sans-serif;
   color: #3c3c3c;
