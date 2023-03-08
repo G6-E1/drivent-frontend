@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { reserveTicket, getTicketsTypes } from '../../../services/ticketApi';
+import { reserveTicket } from '../../../services/ticketApi';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
-import useAsync from '../../../hooks/useAsync';
 
 export default function ReserveOnlineTicket({ ticketType, setIsReserved }) {
   const token = useToken();

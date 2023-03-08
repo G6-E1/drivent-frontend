@@ -7,7 +7,10 @@ export default function SummaryRoom({ setShowSummaryRoom }) {
     <>
       <Subtitle>Você já escolheu seu quarto:</Subtitle>
       <HotelCard background="yellow">
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg" />
+        <img
+          src="https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"
+          alt="Hotel"
+        />
         <span>Driven Resort</span>
         <strong>Quarto reservado</strong>
         <p>101 (Double)</p>
