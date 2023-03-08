@@ -1,21 +1,23 @@
 import styled from 'styled-components';
 import Button from '../../Form/Button';
-import HotelCard from './Hotel';
+import HotelCard from './SummaryHotel';
 
 export default function SummaryRoom({ setShowSummaryRoom }) {
   return (
     <>
       <Subtitle>Você já escolheu seu quarto:</Subtitle>
-      <HotelCard
-        background="yellow"
-        imageUrl="https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg"
-        hotelName="Driven Resort"
-      >
+
+      <HotelCard>
+        <img src="https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg" alt="Hotel" />
+        <span>Driven Resort</span>
+
         <strong>Quarto reservado</strong>
         <p>101 (Double)</p>
+
         <strong>Pessoas no seu quarto</strong>
         <p>Você e mais 1</p>
       </HotelCard>
+
       <ButtonContainer>
         <Button onClick={() => setShowSummaryRoom(false)}>Trocar de quarto</Button>
       </ButtonContainer>
