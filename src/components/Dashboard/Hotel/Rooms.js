@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useToken from '../../../hooks/useToken';
+import { getHotelById } from '../../../services/hotelApi';
 import Room from './Room';
 
 const rooms = [
@@ -29,6 +31,7 @@ bookings.forEach(b => {
 });
 
 export default function Rooms() {
+  const token = useToken();
   const [roomSelect, setRoomSelect] = useState();
   rooms.map((room, i) => {
     if (hashTableBookigns[room.id]) {
@@ -37,7 +40,14 @@ export default function Rooms() {
       return rooms[i].occupation = 0;
     };
   });
+  const [rooms2, setRoom2] = useState();
+  useEffect(() => {
+    getHotelById(1, token)
+      .then(res => { setRoom2(res); })
+      .catch(error => console.log(error));
+  }, []);
 
+  console.log(rooms2);
   return (
     <BoxRooms>
       {rooms.map(r => <Room key={r.id} room={r} setRoomSelect={setRoomSelect} roomSelect={roomSelect} />)}
