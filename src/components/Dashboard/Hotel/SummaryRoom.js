@@ -1,21 +1,75 @@
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import useGetBooking from '../../../hooks/api/useGetBooking';
+import useGetHotelById from '../../../hooks/api/useGetHotelById';
 import Button from '../../Form/Button';
 import HotelCard from './SummaryHotel';
 
 export default function SummaryRoom({ setShowSummaryRoom }) {
+  const { getBooking } = useGetBooking();
+  const { getHotelById } = useGetHotelById();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [roomData, setRoomData] = useState({});
+  const [hotelData, setHotelData] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { Room } = await getBooking();
+
+        let roomType;
+        if (Room.capacity === 1) {
+          roomType = 'Single';
+        } else if (Room.capacity === 2) {
+          roomType = 'Double';
+        } else if (Room.capacity === 3) {
+          roomType = 'Triple';
+        }
+
+        let totalBookings;
+        if (Room.Booking.length === 1) {
+          totalBookings = 'Somente você';
+        } else if (Room.Booking.length === 2) {
+          totalBookings = 'Você e mais 1 pessoa';
+        } else if (Room.Booking.length === 3) {
+          totalBookings = 'Você e mais 2 pessoas';
+        }
+
+        setRoomData({ name: Room.name, roomType, totalBookings });
+
+        const { name, image } = await getHotelById(Room.hotelId);
+        setHotelData({ name, image });
+      } catch (err) {
+        toast('Ocorreu um erro! Por favor, tente novamente');
+      }
+
+      setIsLoading(false);
+    }
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return 'Loading...';
+  }
+
   return (
     <>
       <Subtitle>Você já escolheu seu quarto:</Subtitle>
 
       <HotelCard>
-        <img src="https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg" alt="Hotel" />
-        <span>Driven Resort</span>
+        <img src={hotelData.image} alt="Hotel" />
+        <span>{hotelData.name}</span>
 
         <strong>Quarto reservado</strong>
-        <p>101 (Double)</p>
+        <p>
+          {roomData.name} ({roomData.roomType})
+        </p>
 
         <strong>Pessoas no seu quarto</strong>
-        <p>Você e mais 1</p>
+        <p>{roomData.totalBookings}</p>
       </HotelCard>
 
       <ButtonContainer>
