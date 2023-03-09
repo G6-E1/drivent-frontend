@@ -1,29 +1,42 @@
 import styled from 'styled-components';
 import { HiUser, HiOutlineUser } from 'react-icons/hi';
+import { useState } from 'react';
 
 export default function Room({ room, roomSelect, setRoomSelect }) {
   const vacancys = [];
+  const [selectRoom, setRoomSelectRoom] = useState();
   let buttonDisabled = false;
-  for (let i = 0; i < room.capacity; i++) {
-    if (room.occupation === room.capacity) {
-      for (let j = 0; j < room.capacity; j++) {
-        vacancys.push(<HiUser key={j} color={'#8C8C8C'} />);
-        buttonDisabled = true;
+  let notSelect = true;
+  function showVacancys() {
+    for (let i = 0; i < room.capacity; i++) {
+      if (room.occupation === room.capacity) {
+        for (let j = 0; j < room.capacity; j++) {
+          vacancys.push(<HiUser key={j} color={'#8C8C8C'} />);
+          buttonDisabled = true;
+        }
+        break;
       }
-      break;
-    }
-    if (room.occupation > 0) {
-      vacancys.push(<HiUser key={i} color={'#000000'} />);
-      room.occupation--;
-    } else {
-      vacancys.push(<HiOutlineUser key={i} />);
+      if (room.occupation > 0) {
+        vacancys.push(<HiUser key={i} color={'#000000'} />);
+        room.occupation--;
+      } else if (selectRoom && roomSelect === room.id && notSelect) {
+        vacancys.push(<HiOutlineUser key={i} color={'#FF4791'} />);
+        notSelect = false;
+      }
+      else {
+        vacancys.push(<HiOutlineUser key={i} />);
+      };
     };
-  };
+  }
 
+  showVacancys();
   return (
     <BoxRoom
       key={room.id}
-      onClick={() => setRoomSelect(room.id)}
+      onClick={() => {
+        setRoomSelectRoom(true);
+        setRoomSelect(room.id);
+      }}
       disabled={buttonDisabled}
       select={
         buttonDisabled ?
@@ -60,5 +73,3 @@ const BoxVacancys = styled.div`
   flex-direction:row-reverse;
 `;
 
-// Rosa #FF4791
-//Bege #FFEED2

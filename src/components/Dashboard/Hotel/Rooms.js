@@ -16,7 +16,7 @@ const rooms = [
 const bookings = [
   { id: 1, userId: 1, roomId: 1 }, { id: 2, userId: 2, roomId: 1 }, { id: 3, userId: 3, roomId: 1 },
   { id: 4, userId: 4, roomId: 2 },
-  { id: 5, userId: 5, roomId: 4 }, { id: 6, userId: 6, roomId: 4 },
+  { id: 5, userId: 5, roomId: 4 },
 ];
 
 const hashTableBookigns = [];
@@ -30,13 +30,12 @@ bookings.forEach(b => {
 
 export default function Rooms() {
   const [roomSelect, setRoomSelect] = useState();
-  console.log(roomSelect);
   rooms.map((room, i) => {
     if (hashTableBookigns[room.id]) {
-      rooms[i].occupation = hashTableBookigns[room.id];
+      return rooms[i].occupation = hashTableBookigns[room.id];
     } else {
-      rooms[i].occupation = 0;
-    }
+      return rooms[i].occupation = 0;
+    };
   });
 
   return (
