@@ -6,15 +6,15 @@ import styled from 'styled-components';
 import Rooms from '../../../components/Dashboard/Hotel/Rooms';
 
 export default function Hotel() {
-  const [showSummaryRoom, setShowSummaryRoom] = useState(false);
+  const [showSummaryRoom, setShowSummaryRoom] = useState(true);
 
   return (
     <>
-      {showSummaryRoom ? (
+      {/* {showSummaryRoom ? (
         <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} />
       ) : (
         <HotelList setShowSummaryRoom={setShowSummaryRoom} />
-      )} 
+      )}  */}
       <Rooms/>
     </>
   );
