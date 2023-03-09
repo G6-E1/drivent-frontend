@@ -5,16 +5,15 @@ import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 
 export default function Hotel() {
-  const [showSummaryRoom, setShowSummaryRoom] = useState(true);
+  const [showSummaryRoom, setShowSummaryRoom] = useState(false);
 
   return (
     <>
-      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       {showSummaryRoom ? (
         <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} />
       ) : (
         <HotelList setShowSummaryRoom={setShowSummaryRoom} />
-      )}
+      )} 
     </>
   );
 }

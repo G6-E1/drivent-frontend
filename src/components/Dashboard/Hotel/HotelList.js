@@ -1,3 +1,10 @@
+import Rooms from './Rooms';
+
 export default function HotelList({ setShowSummaryRoom }) {
-  return 'HotelList: Em Breve!';
-}
+  return (
+    <>
+      <Rooms />
+    </>
+  );
+};
+
