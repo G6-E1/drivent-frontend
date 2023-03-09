@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Rooms from '../../../components/Dashboard/Hotel/Rooms';
 
 export default function Hotel() {
-  const [showSummaryRoom, setShowSummaryRoom] = useState(true);
+  const [showSummaryRoom, setShowSummaryRoom] = useState(false);
 
   return (
     <>
@@ -14,7 +14,7 @@ export default function Hotel() {
         <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} />
       ) : (
         <HotelList setShowSummaryRoom={setShowSummaryRoom} />
-      )} */}
+      )} 
       <Rooms/>
     </>
   );
