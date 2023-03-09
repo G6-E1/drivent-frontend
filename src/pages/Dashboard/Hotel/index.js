@@ -1,11 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SummaryRoom from '../../../components/Dashboard/Hotel/SummaryRoom';
 import HotelList from '../../../components/Dashboard/Hotel/HotelList';
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
+import useGetBooking from '../../../hooks/api/useGetBooking';
 
 export default function Hotel() {
-  const [showSummaryRoom, setShowSummaryRoom] = useState(true);
+  const { getBooking } = useGetBooking();
+
+  const [showSummaryRoom, setShowSummaryRoom] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        await getBooking();
+        setShowSummaryRoom(true);
+      } catch (err) {
+        setShowSummaryRoom(false);
+      }
+    }
+
+    fetchData();
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return 'Loading...';
+  }
 
   return (
     <>
