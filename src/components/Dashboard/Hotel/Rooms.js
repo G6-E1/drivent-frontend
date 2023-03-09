@@ -15,7 +15,7 @@ const rooms = [
 
 const bookings = [
   { id: 1, userId: 1, roomId: 1 }, { id: 2, userId: 2, roomId: 1 }, { id: 3, userId: 3, roomId: 1 },
-  { id: 4, userId: 4, roomId: 2 },
+  { id: 4, userId: 4, roomId: 2 }, { id: 4, userId: 7, roomId: 4 },
   { id: 5, userId: 5, roomId: 4 },
 ];
 

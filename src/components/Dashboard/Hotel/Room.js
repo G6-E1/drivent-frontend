@@ -20,7 +20,7 @@ export default function Room({ room, roomSelect, setRoomSelect }) {
         vacancys.push(<HiUser key={i} color={'#000000'} />);
         room.occupation--;
       } else if (selectRoom && roomSelect === room.id && notSelect) {
-        vacancys.push(<HiOutlineUser key={i} color={'#FF4791'} />);
+        vacancys.push(<HiUser key={i} color={'#FF4791'} />);
         notSelect = false;
       }
       else {

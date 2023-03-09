@@ -3,19 +3,17 @@ import SummaryRoom from '../../../components/Dashboard/Hotel/SummaryRoom';
 import HotelList from '../../../components/Dashboard/Hotel/HotelList';
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
-import Rooms from '../../../components/Dashboard/Hotel/Rooms';
 
 export default function Hotel() {
-  const [showSummaryRoom, setShowSummaryRoom] = useState(true);
+  const [showSummaryRoom, setShowSummaryRoom] = useState(false);
 
   return (
     <>
-      {/* {showSummaryRoom ? (
+      {showSummaryRoom ? (
         <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} />
       ) : (
         <HotelList setShowSummaryRoom={setShowSummaryRoom} />
-      )}  */}
-      <Rooms/>
+      )} 
     </>
   );
 }
