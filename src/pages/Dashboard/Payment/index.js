@@ -23,7 +23,6 @@ export default function Payment() {
   const [ticketsTypes, setTicketsTypes] = useState(null);
 
   useEffect(() => {
-    console.log('enrollment in: ', enrollment);
     if (error || !enrollment) {
       setShouldRenderEnrollmentText(true);
     } else {
@@ -60,7 +59,6 @@ export default function Payment() {
             <ErrorTitle>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</ErrorTitle>
           </EnrollmentErrorDiv>
         </>
-
       ) : (
         <>
           <TicketAndPaymentContainer>

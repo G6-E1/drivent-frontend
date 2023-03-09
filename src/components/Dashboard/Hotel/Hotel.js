@@ -1,22 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { getHotels, getHotelWithRoom } from '../../../services/hotelAPI';
+import useToken from '../../../hooks/useToken';
+import { toast } from 'react-toastify';
 
 export default function Hotel({ hotel }) {
   function clique() {
     alert('Clique!');
   }
+  const token = useToken();
+  const [hotelWithRooms, setHotelWithRooms] = useState(null);
 
+  // useEffect(() => {
+  //   getHotelWithRoom(hotel.id, token)
+  //     .then((res) => {
+  //       setHotelWithRooms([...res]);
+  //     })
+  //     .catch((e) => {
+  //       toast('Não foi possível obter os quartos');
+  //     });
+  // }, []);
+  // console.log(hotel);
+  // console.log(hotelWithRooms);
+  // if (hotelWithRooms === null) return <h1>Loadding...</h1>;
   return (
     <Screen onClick={clique}>
       <Image src={hotel.image} />
       <Title>{hotel.name}</Title>
       <section>
         <SubTitle>Tipos de acomodação:</SubTitle>
-        <Text>{hotel.Room.name}</Text>
+        <Text>{hotel.Rooms[0].name}</Text>
       </section>
       <section>
         <SubTitle>Vagas disponíveis:</SubTitle>
-        <Text>{hotel.Room.capacity}</Text>
+        <Text>{hotel.Rooms[0].capacity}</Text>
       </section>
     </Screen>
   );

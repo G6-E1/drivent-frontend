@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// import Hotel from '../../../pages/Dashboard/Hotel';
 import Hotel from '../Hotel/Hotel';
+import { getHotels, getHotelWithRoom } from '../../../services/hotelAPI';
+import useToken from '../../../hooks/useToken';
+import { toast } from 'react-toastify';
 
 export default function HotelList({ setShowSummaryRoom }) {
   const fakeHotels = [
@@ -31,14 +33,24 @@ export default function HotelList({ setShowSummaryRoom }) {
     },
   ];
 
+  const [hotels, setHotels] = useState(null);
+  const token = useToken();
+
+  useEffect(() => {
+    getHotels(token)
+      .then((res) => {
+        setHotels([...res]);
+      })
+      .catch((e) => {
+        toast('Falha na tentativa de obter os hotéis');
+      });
+  }, []);
+
+  console.log(hotels[0].Rooms);
   return (
     <Screen>
       <Title>Primeiro, escolha seu hotel</Title>
-      <Container>
-        {fakeHotels.map((hotel) => (
-          <Hotel hotel={hotel} />
-        ))}
-      </Container>
+      <Container>{hotels && hotels.map((hotel) => <Hotel hotel={hotel} />)}</Container>
     </Screen>
   );
 }
@@ -57,3 +69,14 @@ const Title = styled.h2`
   font-size: 22px;
   color: gray;
 `;
+
+// function getAccommodation(Rooms) {
+//   const txt = '';
+
+//   let single = false;
+//   let double = false;
+//   let triple = false;
+//   for (let i = 0; i < Rooms.length; i++) {
+//     if()
+//   }
+// }
