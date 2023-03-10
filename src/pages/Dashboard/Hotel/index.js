@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import SummaryRoom from '../../../components/Dashboard/Hotel/SummaryRoom';
 import HotelList from '../../../components/Dashboard/Hotel/HotelList';
-import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
+import { Typography } from '@material-ui/core';
 import useGetBooking from '../../../hooks/api/useGetBooking';
 
 export default function Hotel() {
@@ -32,6 +32,7 @@ export default function Hotel() {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+
       {showSummaryRoom ? (
         <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} />
       ) : (

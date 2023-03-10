@@ -57,7 +57,6 @@ export default function Payment() {
             <ErrorTitle>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</ErrorTitle>
           </EnrollmentErrorDiv>
         </>
-
       ) : (
         <>
           <TicketAndPaymentContainer>
