@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getHotels, getHotelWithRoom } from '../../../services/hotelAPI';
+import { getHotels, getHotelById } from '../../../services/hotelApi';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 
@@ -12,7 +12,7 @@ export default function Hotel({ hotel }) {
   const [hotelWithRooms, setHotelWithRooms] = useState(null);
 
   // useEffect(() => {
-  //   getHotelWithRoom(hotel.id, token)
+  //   getHotelById(hotel.id, token)
   //     .then((res) => {
   //       setHotelWithRooms([...res]);
   //     })
