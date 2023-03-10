@@ -4,12 +4,10 @@ import PaymentForm from '../../../components/Form/PaymentForm';
 import Typography from '@material-ui/core/Typography';
 import TicketType from '../../../components/Dashboard/Payment/TicketType';
 
-import ReserveOnlineTicket from '../../../components/Dashboard/Payment/ReserveTicket';
 import { getTicket, getTicketsTypes } from '../../../services/ticketApi';
 import useToken from '../../../hooks/useToken';
 import useAsync from '../../../hooks/useAsync';
 import { toast } from 'react-toastify';
-import { getAllTicketsTypes } from '../../../services/getTypes';
 import { getPersonalInformations } from '../../../services/enrollmentApi';
 
 export default function Payment() {

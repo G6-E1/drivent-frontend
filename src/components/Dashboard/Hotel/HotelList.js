@@ -4,6 +4,7 @@ import Hotel from '../Hotel/Hotel';
 import { getHotels, getHotelWithRoom } from '../../../services/hotelAPI';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
+import Rooms from './Rooms';
 
 export default function HotelList({ setShowSummaryRoom }) {
   const fakeHotels = [
@@ -51,6 +52,7 @@ export default function HotelList({ setShowSummaryRoom }) {
     <Screen>
       <Title>Primeiro, escolha seu hotel</Title>
       <Container>{hotels && hotels.map((hotel) => <Hotel hotel={hotel} />)}</Container>
+      <Rooms />
     </Screen>
   );
 }
@@ -80,3 +82,11 @@ const Title = styled.h2`
 //     if()
 //   }
 // }
+
+// export default function HotelList({ setShowSummaryRoom }) {
+//   return (
+//     <>
+//       <Rooms />
+//     </>
+//   );
+// };

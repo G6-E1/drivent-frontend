@@ -6,8 +6,6 @@ import ReserveOnlineTicket from './ReserveTicket';
 
 export default function TicketType({ setIsReserved, ticketsTypes }) {
   const [isFinish, setIsFinish] = useState(false);
-  const [price, setPrice] = useState(0);
-  const [finalPrice, setFinalPrice] = useState(0);
 
   const [remoteTicket, setRemoteTicket] = useState({});
   const [presencialTicket, setPresencialTicket] = useState({});
@@ -54,7 +52,6 @@ export default function TicketType({ setIsReserved, ticketsTypes }) {
             active={modality === type.name}
             onClick={() => {
               setModality(type.name);
-              setPrice(type.price);
             }}
           >
             <h1>{type.name}</h1>
@@ -73,7 +70,6 @@ export default function TicketType({ setIsReserved, ticketsTypes }) {
                 active={modalityHotel === type.name}
                 onClick={() => {
                   setModalityHotel(type.name);
-                  setFinalPrice(price + type.price);
                   setIsFinish(true);
                 }}
               >
