@@ -16,9 +16,12 @@ export default function Rooms() {
   }, []);
 
   return (
-    <BoxRooms>
-      {hotel && (hotel.Rooms.map(r => <Room key={r.id} room={r} setRoomSelect={setRoomSelect} roomSelect={roomSelect} />))}
-    </BoxRooms>
+    <>
+      <Subtitle>Ótima pedida! Agora escolha seu quarto:</Subtitle>
+      <BoxRooms>
+        {hotel && (hotel.Rooms.map(r => <Room key={r.id} room={r} setRoomSelect={setRoomSelect} roomSelect={roomSelect} />))}
+      </BoxRooms>
+    </>
   );
 };
 
@@ -32,3 +35,16 @@ const BoxRooms = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+const Subtitle = styled.h1`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: #8e8e8e;
+
+  margin-top: 52px;
+  margin-bottom: 33px;
+`;
+
