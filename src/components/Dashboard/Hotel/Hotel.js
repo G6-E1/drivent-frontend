@@ -16,7 +16,7 @@ export default function Hotel({ hotel, setHotelId }) {
       <Title>{hotel.name}</Title>
       <section>
         <SubTitle>Tipos de acomodação:</SubTitle>
-        <Text>{hotel.Rooms[0].name}</Text>
+        <Text>{getAccommodation(hotel.Rooms)}</Text>
       </section>
       <section>
         <SubTitle>Vagas disponíveis:</SubTitle>
@@ -77,14 +77,29 @@ const Text = styled.p`
 `;
 
 function getAccommodation(Rooms) {
-  const txt = '';
-
   let single = false;
   let double = false;
   let triple = false;
   for (let i = 0; i < Rooms.length; i++) {
-    if (true) {
+    if (Rooms[i].capacity === 1) {
+      single = true;
     }
+    if (Rooms[i].capacity === 2) {
+      double = true;
+    }
+    if (Rooms[i].capacity === 3) {
+      triple = true;
+    }
+  }
+
+  if (single && double && triple) {
+    return 'Single, Double e Triple';
+  }
+  if (single && double && !triple) {
+    return 'Single e Double';
+  }
+  if (single && !double && !triple) {
+    return 'Single';
   }
 }
 
