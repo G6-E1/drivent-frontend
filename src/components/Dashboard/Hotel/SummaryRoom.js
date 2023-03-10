@@ -6,7 +6,7 @@ import useGetHotelById from '../../../hooks/api/useGetHotelById';
 import Button from '../../Form/Button';
 import HotelCard from './SummaryHotel';
 
-export default function SummaryRoom({ setShowSummaryRoom }) {
+export default function SummaryRoom({ setShowSummaryRoom, setChangeRoom }) {
   const { getBooking } = useGetBooking();
   const { getHotelById } = useGetHotelById();
 
@@ -51,6 +51,11 @@ export default function SummaryRoom({ setShowSummaryRoom }) {
     fetchData();
   }, []);
 
+  function handleClick() {
+    setChangeRoom(true);
+    setShowSummaryRoom(false);
+  }
+
   if (isLoading) {
     return 'Loading...';
   }
@@ -73,7 +78,7 @@ export default function SummaryRoom({ setShowSummaryRoom }) {
       </HotelCard>
 
       <ButtonContainer>
-        <Button onClick={() => setShowSummaryRoom(false)}>Trocar de quarto</Button>
+        <Button onClick={handleClick}>Trocar de quarto</Button>
       </ButtonContainer>
     </>
   );
