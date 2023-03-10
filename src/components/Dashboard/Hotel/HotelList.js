@@ -47,7 +47,6 @@ export default function HotelList({ setShowSummaryRoom }) {
       });
   }, []);
 
-  console.log(hotels[0].Rooms);
   return (
     <Screen>
       <Title>Primeiro, escolha seu hotel</Title>
