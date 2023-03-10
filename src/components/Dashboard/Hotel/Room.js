@@ -3,22 +3,24 @@ import { HiUser, HiOutlineUser } from 'react-icons/hi';
 import { useState } from 'react';
 
 export default function Room({ room, roomSelect, setRoomSelect }) {
+  console.log(room);
   const vacancys = [];
+  let bookings = room.Booking.length;
   const [selectRoom, setRoomSelectRoom] = useState();
   let buttonDisabled = false;
   let notSelect = true;
   function showVacancys() {
     for (let i = 0; i < room.capacity; i++) {
-      if (room.occupation === room.capacity) {
+      if (bookings >= room.capacity) {
         for (let j = 0; j < room.capacity; j++) {
           vacancys.push(<HiUser key={j} color={'#8C8C8C'} />);
           buttonDisabled = true;
         }
         break;
       }
-      if (room.occupation > 0) {
+      if (bookings > 0) {
         vacancys.push(<HiUser key={i} color={'#000000'} />);
-        room.occupation--;
+        bookings--;
       } else if (selectRoom && roomSelect === room.id && notSelect) {
         vacancys.push(<HiUser key={i} color={'#FF4791'} />);
         notSelect = false;
