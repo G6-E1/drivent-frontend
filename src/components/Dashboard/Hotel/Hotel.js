@@ -1,14 +1,33 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getHotels, getHotelWithRoom } from '../../../services/hotelAPI';
+import { getHotels, getHotelById } from '../../../services/hotelAPI';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 
 export default function Hotel({ hotel, setHotelId }) {
+  const token = useToken();
+  const [availableVacancies, setAvailableVacancies] = useState(null);
+
+  useEffect(() => {
+    let vacanciesFilled = 0;
+    let vacancies = 0;
+
+    getHotelById(hotel.id, token)
+      .then((hotel) => {
+        for (let i = 0; i < hotel.Rooms.length; i++) {
+          vacancies += hotel.Rooms[i].capacity;
+          if (hotel.Rooms[i].Booking.length !== 0) {
+            vacanciesFilled += 1;
+          }
+        }
+        setAvailableVacancies(vacancies - vacanciesFilled);
+      })
+      .catch((e) => {});
+  }, []);
+
   function choiceHotel() {
     setHotelId(hotel.id);
   }
-  // const token = useToken();
 
   return (
     <Screen onClick={choiceHotel}>
@@ -20,7 +39,7 @@ export default function Hotel({ hotel, setHotelId }) {
       </section>
       <section>
         <SubTitle>Vagas disponíveis:</SubTitle>
-        <Text>{hotel.Rooms[0].capacity}</Text>
+        <Text>{availableVacancies}</Text>
       </section>
     </Screen>
   );
@@ -102,5 +121,3 @@ function getAccommodation(Rooms) {
     return 'Single';
   }
 }
-
-function getAvailableVacancies(Rooms) {}
