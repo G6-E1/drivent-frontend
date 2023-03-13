@@ -3,7 +3,6 @@ import { HiUser, HiOutlineUser } from 'react-icons/hi';
 import { useState } from 'react';
 
 export default function Room({ room, roomSelect, setRoomSelect }) {
-  console.log(room);
   const vacancys = [];
   let bookings = room.Booking.length;
   const [selectRoom, setRoomSelectRoom] = useState();

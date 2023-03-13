@@ -1,21 +1,38 @@
+import { id } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useToken from '../../../hooks/useToken';
+import { postBooking } from '../../../services/bookingApi';
 import { getHotelById } from '../../../services/hotelApi';
+import Button from '../../Form/Button';
+
 import Room from './Room';
 
-export default function Rooms() {
+export default function Rooms({ hotelId }{ changeRoom, setChangeRoom, setShowSummaryRoom }) {
   const token = useToken();
   const [roomSelect, setRoomSelect] = useState();
-
+  console.log(roomSelect);
   const [hotel, setHotel] = useState(undefined);
   useEffect(() => {
-    getHotelById(1, token)
+    getHotelById(hotelId, token)
       .then((res) => {
         setHotel(res);
       })
       .catch((error) => console.log(error));
   }, []);
+
+  function handleButton() {
+    if (!roomSelect) {
+      return alert('Por favor selecione quarto');
+    };
+
+    postBooking(roomSelect, token);
+    alert(`Mudando para o quarto ${roomSelect}`);
+    setShowSummaryRoom(true);
+    // if (changeRoom) {
+
+    // };
+  };
 
   return (
     <>
@@ -24,6 +41,10 @@ export default function Rooms() {
         {hotel &&
           hotel.Rooms.map((r) => <Room key={r.id} room={r} setRoomSelect={setRoomSelect} roomSelect={roomSelect} />)}
       </BoxRooms>
+      <Button onClick={() => handleButton(changeRoom)}>
+        RESERVAR QUARTO
+      </Button>
+
     </>
   );
 }
@@ -33,9 +54,10 @@ const BoxRooms = styled.div`
   column-gap: 17px;
   row-gap: 8px;
 
+  margin-bottom: 46px;
+
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
 `;
 
