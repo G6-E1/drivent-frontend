@@ -6,7 +6,7 @@ import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 import Rooms from './Rooms';
 
-export default function HotelList({ setShowSummaryRoom }) {
+export default function HotelList({ setShowSummaryRoom, changeRoom, setChangeRoom }) {
   const fakeHotels = [
     {
       name: 'Driven Resort',
@@ -50,8 +50,8 @@ export default function HotelList({ setShowSummaryRoom }) {
   return (
     <Screen>
       <Title>Primeiro, escolha seu hotel</Title>
-      <Container>{hotels && hotels.map((hotel) => <Hotel hotel={hotel} />)}</Container>
-      <Rooms />
+      <Container>{hotels && hotels.map((hotel) => <Hotel hotel={hotel} changeRoom={changeRoom} setChangeRoom={setChangeRoom} setShowSummaryRoom={setShowSummaryRoom}/>)}</Container>
+      <Rooms setShowSummaryRoom={setShowSummaryRoom}/>
     </Screen>
   );
 }

@@ -37,7 +37,7 @@ export default function Hotel() {
       {showSummaryRoom ? (
         <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} setChangeRoom={setChangeRoom} />
       ) : (
-        <HotelList setShowSummaryRoom={setShowSummaryRoom} />
+        <HotelList setShowSummaryRoom={setShowSummaryRoom} changeRoom={changeRoom} setChangeRoom={setChangeRoom}/>
       )}
     </>
   );
