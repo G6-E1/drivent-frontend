@@ -32,7 +32,7 @@ export default function Hotel() {
             message: 'Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem' });
         }
         setTicketType(ticketData.ticketType);
-        if (!ticketType.isRemote) {
+        if (ticketType.isRemote) {
           setShouldRenderHotelError({ 
             display: true, 
             title: 'Escolha de hotel e quarto', 
