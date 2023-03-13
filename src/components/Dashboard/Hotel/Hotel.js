@@ -1,39 +1,46 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getHotels, getHotelById } from '../../../services/hotelApi';
+import { getHotels, getHotelById } from '../../../services/hotelAPI';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 
-export default function Hotel({ hotel }) {
-  function clique() {
-    alert('Clique!');
-  }
+export default function Hotel({ hotel, setHotelId }) {
   const token = useToken();
-  const [hotelWithRooms, setHotelWithRooms] = useState(null);
+  const [availableVacancies, setAvailableVacancies] = useState(null);
 
-  // useEffect(() => {
-  //   getHotelById(hotel.id, token)
-  //     .then((res) => {
-  //       setHotelWithRooms([...res]);
-  //     })
-  //     .catch((e) => {
-  //       toast('Não foi possível obter os quartos');
-  //     });
-  // }, []);
-  // console.log(hotel);
-  // console.log(hotelWithRooms);
-  // if (hotelWithRooms === null) return <h1>Loadding...</h1>;
+  useEffect(() => {
+    let vacanciesFilled = 0;
+    let vacancies = 0;
+
+    getHotelById(hotel.id, token)
+      .then((hotel) => {
+        for (let i = 0; i < hotel.Rooms.length; i++) {
+          vacancies += hotel.Rooms[i].capacity;
+          if (hotel.Rooms[i].Booking.length !== 0) {
+            vacanciesFilled += 1;
+          }
+        }
+        setAvailableVacancies(vacancies - vacanciesFilled);
+      })
+      .catch((e) => {});
+  }, []);
+
+  function choiceHotel() {
+    setHotelId(hotel.id);
+    alert(hotel.id);
+  }
+
   return (
-    <Screen onClick={clique}>
+    <Screen onClick={choiceHotel}>
       <Image src={hotel.image} />
       <Title>{hotel.name}</Title>
       <section>
         <SubTitle>Tipos de acomodação:</SubTitle>
-        <Text>{hotel.Rooms[0].name}</Text>
+        <Text>{getAccommodation(hotel.Rooms)}</Text>
       </section>
       <section>
         <SubTitle>Vagas disponíveis:</SubTitle>
-        <Text>{hotel.Rooms[0].capacity}</Text>
+        <Text>{availableVacancies}</Text>
       </section>
     </Screen>
   );
@@ -88,3 +95,30 @@ const SubTitle = styled.h4`
 const Text = styled.p`
   font-size: 12px;
 `;
+
+function getAccommodation(Rooms) {
+  let single = false;
+  let double = false;
+  let triple = false;
+  for (let i = 0; i < Rooms.length; i++) {
+    if (Rooms[i].capacity === 1) {
+      single = true;
+    }
+    if (Rooms[i].capacity === 2) {
+      double = true;
+    }
+    if (Rooms[i].capacity === 3) {
+      triple = true;
+    }
+  }
+
+  if (single && double && triple) {
+    return 'Single, Double e Triple';
+  }
+  if (single && double && !triple) {
+    return 'Single e Double';
+  }
+  if (single && !double && !triple) {
+    return 'Single';
+  }
+}
