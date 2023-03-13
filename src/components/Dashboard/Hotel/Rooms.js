@@ -8,7 +8,7 @@ import Button from '../../Form/Button';
 
 import Room from './Room';
 
-export default function Rooms({ hotelId }{ changeRoom, setChangeRoom, setShowSummaryRoom }) {
+export default function Rooms({ hotelId, changeRoom, setChangeRoom, setShowSummaryRoom }) {
   const token = useToken();
   const [roomSelect, setRoomSelect] = useState();
   console.log(roomSelect);

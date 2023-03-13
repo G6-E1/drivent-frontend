@@ -25,7 +25,7 @@ export default function HotelList({ setShowSummaryRoom }) {
     <Screen>
       <Title>Primeiro, escolha seu hotel</Title>
       <Container>
-        {hotels && hotels.map((hotel, index) => <Hotel key={index} hotel={hotel} setHotelId={setHotelId} changeRoom={changeRoom} setChangeRoom={setChangeRoom} setShowSummaryRoom={setShowSummaryRoom}/>)}
+        {hotels && hotels.map((hotel, index) => <Hotel key={index} hotel={hotel} setHotelId={setHotelId} setShowSummaryRoom={setShowSummaryRoom}/>)}
       </Container>
       {hotelId && <Rooms setShowSummaryRoom={setShowSummaryRoom}hotelId={hotelId} />}
     </Screen>
