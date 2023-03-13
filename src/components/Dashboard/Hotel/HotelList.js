@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Hotel from '../Hotel/Hotel';
-import { getHotels, getHotelById } from '../../../services/hotelApi';
+import { getHotels, getHotelById } from '../../../services/hotelAPI';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 import Rooms from './Rooms';

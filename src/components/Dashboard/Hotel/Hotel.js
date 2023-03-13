@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getHotels, getHotelById } from '../../../services/hotelApi';
+import { getHotels, getHotelById } from '../../../services/hotelAPI';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 
@@ -27,6 +27,7 @@ export default function Hotel({ hotel, setHotelId }) {
 
   function choiceHotel() {
     setHotelId(hotel.id);
+    alert(hotel.id);
   }
 
   return (
