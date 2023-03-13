@@ -17,7 +17,3 @@ export function getAllTicketsTypes(ticketsTypes) {
 
   return { remoteTicket, presencialTicket, presencialWithHotelTicket };
 }
-
-export function getTicketTypeById(array, ticketTypeId) {
-  return array.filter((item) => item.id === ticketTypeId)[0];
-}

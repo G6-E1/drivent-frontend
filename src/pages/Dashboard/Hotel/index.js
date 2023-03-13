@@ -6,7 +6,6 @@ import { Typography } from '@material-ui/core';
 import useGetBooking from '../../../hooks/api/useGetBooking';
 import ErrorPage from '../../../components/Dashboard/Error/Error';
 import { useGetTicket, useGetTicketsTypes } from '../../../hooks/api/useTicket';
-import { getTicketTypeById } from '../../../services/getTypes';
 
 export default function Hotel() {
   const { getBooking } = useGetBooking();
