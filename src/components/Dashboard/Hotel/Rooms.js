@@ -1,5 +1,5 @@
-import { id } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import useToken from '../../../hooks/useToken';
 import { postBooking } from '../../../services/bookingApi';
@@ -8,30 +8,27 @@ import Button from '../../Form/Button';
 
 import Room from './Room';
 
-export default function Rooms({ hotelId }{ changeRoom, setChangeRoom, setShowSummaryRoom }) {
+export default function Rooms({ hotelId, changeRoom, setShowSummaryRoom }) {
   const token = useToken();
   const [roomSelect, setRoomSelect] = useState();
-  console.log(roomSelect);
   const [hotel, setHotel] = useState(undefined);
   useEffect(() => {
     getHotelById(hotelId, token)
       .then((res) => {
         setHotel(res);
       })
-      .catch((error) => console.log(error));
-  }, []);
+      .catch((error) => { 
+        // eslint-disable-next-line
+        console.log(error) });
+  }, [hotelId]);
 
-  function handleButton() {
+  async function handleButton(changeRoom) {
     if (!roomSelect) {
-      return alert('Por favor selecione quarto');
+      return toast('Por favor selecione quarto');
     };
 
-    postBooking(roomSelect, token);
-    alert(`Mudando para o quarto ${roomSelect}`);
+    await postBooking(roomSelect, token);
     setShowSummaryRoom(true);
-    // if (changeRoom) {
-
-    // };
   };
 
   return (
@@ -41,20 +38,25 @@ export default function Rooms({ hotelId }{ changeRoom, setChangeRoom, setShowSum
         {hotel &&
           hotel.Rooms.map((r) => <Room key={r.id} room={r} setRoomSelect={setRoomSelect} roomSelect={roomSelect} />)}
       </BoxRooms>
-      <Button onClick={() => handleButton(changeRoom)}>
-        RESERVAR QUARTO
-      </Button>
-
+      <ButtonContainer>
+        <Button onClick={() => handleButton(changeRoom)}>
+          RESERVAR QUARTO
+        </Button>
+      </ButtonContainer>
     </>
   );
 }
+const ButtonContainer = styled.div`
+  margin-top: 17px;
 
+  > button {
+    margin-top: 0px;
+  }
+`;
 const BoxRooms = styled.div`
   max-width: 845px;
   column-gap: 17px;
   row-gap: 8px;
-
-  margin-bottom: 46px;
 
   display: flex;
   flex-wrap: wrap;

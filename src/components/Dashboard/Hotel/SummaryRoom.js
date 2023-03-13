@@ -6,7 +6,7 @@ import useGetHotelById from '../../../hooks/api/useGetHotelById';
 import Button from '../../Form/Button';
 import HotelCard from './SummaryHotel';
 
-export default function SummaryRoom({ setShowSummaryRoom, setChangeRoom }) {
+export default function SummaryRoom({ setShowSummaryRoom, setChangeRoom, changeRoom }) {
   const { getBooking } = useGetBooking();
   const { getHotelById } = useGetHotelById();
 
@@ -18,7 +18,6 @@ export default function SummaryRoom({ setShowSummaryRoom, setChangeRoom }) {
     async function fetchData() {
       try {
         const { Room } = await getBooking();
-        console.log(Room);
         let roomType;
         if (Room.capacity === 1) {
           roomType = 'Single';
@@ -49,7 +48,7 @@ export default function SummaryRoom({ setShowSummaryRoom, setChangeRoom }) {
     }
 
     fetchData();
-  }, []);
+  }, [changeRoom]);
 
   function handleClick() {
     setChangeRoom(true);
