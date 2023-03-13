@@ -18,7 +18,7 @@ export default function SummaryRoom({ setShowSummaryRoom, setChangeRoom }) {
     async function fetchData() {
       try {
         const { Room } = await getBooking();
-
+        console.log(Room);
         let roomType;
         if (Room.capacity === 1) {
           roomType = 'Single';
