@@ -10,6 +10,7 @@ export default function Hotel() {
 
   const [showSummaryRoom, setShowSummaryRoom] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [changeRoom, setChangeRoom] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,7 +35,7 @@ export default function Hotel() {
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
 
       {showSummaryRoom ? (
-        <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} />
+        <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} setChangeRoom={setChangeRoom} />
       ) : (
         <HotelList setShowSummaryRoom={setShowSummaryRoom} />
       )}

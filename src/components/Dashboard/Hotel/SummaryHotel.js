@@ -5,11 +5,11 @@ export default function SummaryHotel({ children }) {
 }
 
 const HotelCard = styled.div`
-  width: 196px;
-  height: 264px;
+  width: 250px;
+  height: 320px;
   background-color: #ffeed2;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 15px;
+  padding: 20px;
   margin-right: 19px;
 
   font-family: 'Roboto', sans-serif;
@@ -19,30 +19,25 @@ const HotelCard = styled.div`
   flex-direction: column;
 
   img {
-    width: 168px;
-    height: 109px;
-    border-radius: 5px;
+    width: 100%;
+    height: 140px;
+    border-radius: 7.5px;
     margin-bottom: 10px;
   }
 
   span {
-    margin-bottom: 10px;
-
     font-size: 20px;
     line-height: 24px;
   }
 
   p,
   strong {
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 15px;
+    line-height: 17px;
   }
 
   strong {
+    margin-top: 14px;
     margin-bottom: 2px;
-  }
-
-  p {
-    margin-bottom: 14px;
   }
 `;
