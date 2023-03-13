@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useToken from '../../../hooks/useToken';
-import { getHotelById } from '../../../services/hotelApi';
+import { getHotelById } from '../../../services/hotelAPI';
 import Room from './Room';
 
-export default function Rooms() {
+export default function Rooms({ hotelId }) {
   const token = useToken();
   const [roomSelect, setRoomSelect] = useState();
 
   const [hotel, setHotel] = useState(undefined);
   useEffect(() => {
-    getHotelById(1, token)
+    getHotelById(hotelId, token)
       .then((res) => {
         setHotel(res);
       })
