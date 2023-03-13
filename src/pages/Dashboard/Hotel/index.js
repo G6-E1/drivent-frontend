@@ -79,9 +79,9 @@ export default function Hotel() {
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
 
       {showSummaryRoom ? (
-        <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} setChangeRoom={setChangeRoom} />
+        <SummaryRoom setShowSummaryRoom={setShowSummaryRoom} setChangeRoom={setChangeRoom} changeRoom={changeRoom} />
       ) : (
-        <HotelList setShowSummaryRoom={setShowSummaryRoom} changeRoom={changeRoom} setChangeRoom={setChangeRoom}/>
+        <HotelList setShowSummaryRoom={setShowSummaryRoom} changeRoom={changeRoom} setChangeRoom={setChangeRoom} />
       )}
     </>
   );

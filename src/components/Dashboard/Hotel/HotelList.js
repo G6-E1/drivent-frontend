@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Hotel from '../Hotel/Hotel';
-import { getHotels, getHotelById } from '../../../services/hotelAPI';
+import { getHotels } from '../../../services/hotelApi';
 import useToken from '../../../hooks/useToken';
 import { toast } from 'react-toastify';
 import Rooms from './Rooms';
 
-export default function HotelList({ setShowSummaryRoom }) {
+export default function HotelList({ setShowSummaryRoom, changeRoom, setChangeRoom }) {
   const [hotels, setHotels] = useState(null);
   const [hotelId, setHotelId] = useState(null);
   const token = useToken();
@@ -25,9 +25,9 @@ export default function HotelList({ setShowSummaryRoom }) {
     <Screen>
       <Title>Primeiro, escolha seu hotel</Title>
       <Container>
-        {hotels && hotels.map((hotel, index) => <Hotel key={index} hotel={hotel} setHotelId={setHotelId} setShowSummaryRoom={setShowSummaryRoom}/>)}
+        {hotels && hotels.map((hotel, index) => <Hotel key={index} hotel={hotel} setHotelId={setHotelId} changeRoom={changeRoom} setChangeRoom={setChangeRoom} setShowSummaryRoom={setShowSummaryRoom} />)}
       </Container>
-      {hotelId && <Rooms setShowSummaryRoom={setShowSummaryRoom}hotelId={hotelId} />}
+      {hotelId && <Rooms setShowSummaryRoom={setShowSummaryRoom} hotelId={hotelId} changeRoom={changeRoom} setChangeRoom={setChangeRoom} />}
     </Screen>
   );
 }

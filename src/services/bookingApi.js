@@ -11,12 +11,10 @@ export async function getBooking(token) {
 }
 
 export async function postBooking(body, token) {
-  console.log(token);
-  const response = await api.post('/booking/', { roomId: body }, {
+  const response = await api.post('/booking', { roomId: body }, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response.data);
   return response.data;
 };
