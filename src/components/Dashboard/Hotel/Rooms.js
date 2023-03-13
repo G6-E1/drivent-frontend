@@ -11,26 +11,29 @@ export default function Rooms() {
 
   const [hotel, setHotel] = useState(undefined);
   useEffect(() => {
-    getHotelWithRoom(1, token)
-      .then(res => { setHotel(res); })
-      .catch(error => console.log(error));
+    getHotelById(1, token)
+      .then((res) => {
+        setHotel(res);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   return (
     <>
       <Subtitle>Ótima pedida! Agora escolha seu quarto:</Subtitle>
       <BoxRooms>
-        {hotel && (hotel.Rooms.map(r => <Room key={r.id} room={r} setRoomSelect={setRoomSelect} roomSelect={roomSelect} />))}
+        {hotel &&
+          hotel.Rooms.map((r) => <Room key={r.id} room={r} setRoomSelect={setRoomSelect} roomSelect={roomSelect} />)}
       </BoxRooms>
     </>
   );
-};
+}
 
 const BoxRooms = styled.div`
   max-width: 845px;
-  column-gap:17px;
-  row-gap:8px;
-  
+  column-gap: 17px;
+  row-gap: 8px;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -48,4 +51,3 @@ const Subtitle = styled.h1`
   margin-top: 52px;
   margin-bottom: 33px;
 `;
-
