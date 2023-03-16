@@ -1,16 +1,12 @@
-// export default function Activities() {
-//   return 'Atividades: Em breve!';
-// }
-
+import Days from '../../../components/Dashboard/Activities/Days';
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
-import Activity from '../../../components/Dashboard/Activities/Activity';
 
 export default function Activities() {
   return (
     <>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-      <Activity />
+      <Days />
     </>
   );
 }
