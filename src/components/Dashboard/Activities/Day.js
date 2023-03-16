@@ -16,7 +16,7 @@ export default function Day({ idButton, day, selectedDay, setSelectedDay }) {
         }}
         disabled={isDisable}
       >
-        {dayjs(day).format('ddd, DD/MM HH:mm')}
+        {dayjs(day).format('ddd, DD/MM')}
       </Button>
     </ButtonContainer>
   );
