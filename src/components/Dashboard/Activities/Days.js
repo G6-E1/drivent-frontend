@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import useGetActiviesDates from '../../../hooks/api/useActivities';
 import Day from './Day';
 
 const Activities = [
@@ -9,11 +11,26 @@ const Activities = [
 ];
 
 export default function Days() {
-  const [selectedDay, setSelectedDay] = useState();
+  const { getDateActivities } = useGetActiviesDates();
 
+  const [selectedDay, setSelectedDay] = useState();
+  const [activities, setActivities] = useState();
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setActivities(await getDateActivities());
+        console.log('entrou');
+      } catch (error) {
+
+      }
+    }
+    fetchData();
+  }, []);
+
+  console.log(activities);
   return (
     <ContainerDays>
-      {Activities.map((day, i) => <Day
+      {activities?.map((day, i) => <Day
         key={i}
         idButton={i}
         day={day.startAt}
