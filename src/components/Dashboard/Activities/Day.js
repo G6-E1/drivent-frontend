@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 dayjs.locale('pt-br');
 
-export default function Day({ idButton, day, selectedDay, setSelectedDay }) {
+export default function Day({ idButton, day, selectedDay, setSelectedDay, setdate }) {
   let isDisable = idButton === selectedDay;
   
   return (
@@ -12,11 +12,12 @@ export default function Day({ idButton, day, selectedDay, setSelectedDay }) {
       <Button
         onClick={() => {
           setSelectedDay(idButton);
+          setdate(day.startAt);
           isDisable = true;
         }}
         disabled={isDisable}
       >
-        {dayjs(day).format('ddd, DD/MM')}
+        {day.ptBr}
       </Button>
     </ButtonContainer>
   );
