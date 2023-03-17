@@ -19,7 +19,6 @@ export default function Days() {
     async function fetchData() {
       try {
         setActivities(await getDateActivities());
-        console.log('entrou');
       } catch (error) {
 
       }
