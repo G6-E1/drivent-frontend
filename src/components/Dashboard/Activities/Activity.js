@@ -1,12 +1,23 @@
 import styled from 'styled-components';
 import { BiLogIn, BiXCircle, BiCheckCircle } from 'react-icons/bi';
 import { useState } from 'react';
+import usePostActivityEnrollment from '../../../hooks/api/usePostActivityEnrollment';
+import useDeleteActivityEnrollment from '../../../hooks/api/useDeleteActivityEnrollment';
 
 export default function Activity() {
   const [isFull, setIsFull] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const { postActivityEnrollment } = usePostActivityEnrollment();
+  const { deleteActivityEnrollment } = useDeleteActivityEnrollment();
 
-  function enroll() {
+  async function enroll() {
+    if (isEnrolled) {
+      await deleteActivityEnrollment(1); //Todo: dynamic activity id
+    } else {
+      const data = { activityId: 1 }; //Todo: dynamic activity id
+      await postActivityEnrollment(data);
+    }
+
     setIsEnrolled(!isEnrolled);
   }
 
@@ -88,7 +99,7 @@ const JoinButton = styled.button`
   height: 100%;
   background-color: transparent;
   border: none;
-  cursor: ${(props) => (props.disabled && props.isEnrolled === false ? 'default' : 'pointer')};
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
 
   display: flex;
   flex-direction: column;
