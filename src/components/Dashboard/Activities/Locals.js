@@ -11,8 +11,6 @@ export default function Locals({ date }) {
   const [locals, setLocals] = useState([]);
 
   const {
-    loading: getLocalsLoading,
-    error: getLocalsError,
     act: getLocals,
   } = useAsync(() => localsApi.getLocals(token), false);
 

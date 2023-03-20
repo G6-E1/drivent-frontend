@@ -5,6 +5,7 @@ import { useGetActiviesDates } from '../../../hooks/api/useActivities';
 import Day from './Day';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { toast } from 'react-toastify';
 dayjs.locale('pt-br');
 
 export default function Days({ setdate }) {
@@ -24,21 +25,20 @@ export default function Days({ setdate }) {
           uniqueDates(activities);
         };
       } catch (error) {
-        console.log(error);
+        toast('Ocorreu um erro :(, tente novamente!');
       }
     }
     fetchData();
   }, []);
 
   function uniqueDates(activities) {
-    activities.map(date => {
+    activities.forEach(date => {
       const datePTBr = dayjs(date.startAt).format('ddd, DD/MM');
       datesMap.set(datePTBr, { ptBr: datePTBr, startAt: date.startAt });
     });
     datesMap.forEach((d) => datesArray.push(d));
     setDates(datesArray);
   }
-  console.log('dates:', dates);
   return (
     <ContainerDays>
       {dates?.map((d, i) => <Day

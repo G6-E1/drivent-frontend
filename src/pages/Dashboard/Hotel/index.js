@@ -5,12 +5,11 @@ import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
 import useGetBooking from '../../../hooks/api/useGetBooking';
 import ErrorPage from '../../../components/Dashboard/Error/Error';
-import { useGetTicket, useGetTicketsTypes } from '../../../hooks/api/useTicket';
+import { useGetTicket } from '../../../hooks/api/useTicket';
 
 export default function Hotel() {
   const { getBooking } = useGetBooking();
   const { getTicket } = useGetTicket();
-  const { getTicketsTypes } = useGetTicketsTypes();
 
   const [showSummaryRoom, setShowSummaryRoom] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,13 +30,14 @@ export default function Hotel() {
             title: 'Escolha de hotel e quarto', 
             message: 'Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem' });
         }
-        setTicketType(ticketData.ticketType);
+        setTicketType(ticketData.TicketType);
         if (ticketType.isRemote) {
           setShouldRenderHotelError({ 
             display: true, 
             title: 'Escolha de hotel e quarto', 
             message: 'Sua modalidade de ingresso não inclui hospedagem! Prossiga para a escolha de atividades' });
         }
+        setIsLoading(false);
       } catch (error) {
         setShouldRenderHotelError({ 
           display: true, 
@@ -47,21 +47,20 @@ export default function Hotel() {
     }
 
     fetchData();
-    setIsLoading(false);
-  }, []);
+  }, [isLoading]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         await getBooking();
         setShowSummaryRoom(true);
+        setIsLoading(false);
       } catch (err) {
         setShowSummaryRoom(false);
       }
     }
 
     fetchData();
-    setIsLoading(false);
   }, []);
 
   if (shouldRenderHotelError.display || ticket?.status === 'RESERVED') {
@@ -89,23 +88,4 @@ export default function Hotel() {
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 36px !important;
-`;
-
-const EnrollmentErrorDiv = styled.div`
-  display: flex;
-  margin-top: 25%;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ErrorTitle = styled.h2`
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 23.44px;
-  color: #8e8e8e;
-  text-overflow: ellipsis;
-  overflow: visible;
-  white-space: normal;
-  text-align: center;
-  width: 50%;
 `;

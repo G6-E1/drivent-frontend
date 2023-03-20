@@ -11,8 +11,6 @@ export default function Local({ date, localId, maxCapacity, name }) {
   const [activities, setActivities] = useState([]);
 
   const {
-    loading: getActivitiesByDateAndLocalIdLoading,
-    error: getActivitiesByDateAndLocalIdError,
     act: getActivitiesByDateAndLocalId,
   } = useAsync(() => activitiesApi.getActivitiesByDateAndLocalId(localId, date, token), false);
 
