@@ -1,13 +1,33 @@
 import styled from 'styled-components';
 import Local from './Local';
-
-const locals = [
-  { id: 1, maxCapacity: 200, name: 'auditório 1' },
-  { id: 2, maxCapacity: 180, name: 'auditório 2' },
-  { id: 3, maxCapacity: 80, name: 'auditório 3' },
-];
+import * as localsApi from '../../../services/localsApi';
+import { useState, useEffect } from 'react';
+import useToken from '../../../hooks/useToken';
+import useAsync from '../../../hooks/useAsync';
+import { toast } from 'react-toastify';
 
 export default function Locals({ date }) {
+  const token = useToken();
+  const [locals, setLocals] = useState([]);
+
+  const {
+    loading: getLocalsLoading,
+    error: getLocalsError,
+    act: getLocals,
+  } = useAsync(() => localsApi.getLocals(token), false);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      try {
+        const fetchedLocals = await getLocals();
+        setLocals(fetchedLocals);
+      } catch (error) {
+        toast('Ocorreu um erro ao obter os locais, tente novamente');
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <LocalsContainer>
       {locals.map((local, i) => <Local
