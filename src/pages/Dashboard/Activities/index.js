@@ -10,8 +10,8 @@ export default function Activities() {
     <>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
       <Days setdate={setdate} />
-      {date &&  <StyledTypography variant='h4'>Dia selecionado {date}</StyledTypography>}
-      <Locals />
+      {/* {date &&  <StyledTypography variant='h4'>Dia selecionado {date}</StyledTypography>} */}
+      {date && <><Locals date={date} /></>}
     </>
   );
 }

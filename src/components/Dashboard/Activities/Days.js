@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import useGetActiviesDates from '../../../hooks/api/useActivities';
+import { useGetActiviesDates } from '../../../hooks/api/useActivities';
 import Day from './Day';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
@@ -38,12 +38,13 @@ export default function Days({ setdate }) {
     datesMap.forEach((d) => datesArray.push(d));
     setDates(datesArray);
   }
-  console.log(dates);
+  console.log('dates:', dates);
   return (
     <ContainerDays>
       {dates?.map((d, i) => <Day
         key={i}
         idButton={i}
+        dates={dates}
         day={d}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}

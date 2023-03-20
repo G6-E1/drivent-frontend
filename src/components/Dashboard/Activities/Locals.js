@@ -7,11 +7,13 @@ const locals = [
   { id: 3, maxCapacity: 80, name: 'auditório 3' },
 ];
 
-export default function Locals() {
+export default function Locals({ date }) {
+  console.log('date: ', date);
   return (
     <LocalsContainer>
       {locals.map((local, i) => <Local
         key={i}
+        date={date}
         localId={local.id}
         maxCapacity={local.maxCapacity}
         name={local.name}
@@ -22,5 +24,5 @@ export default function Locals() {
 
 const LocalsContainer = styled.div`
   display: flex;
-  margin-top: 60px;
+  margin-top: 55px;
 `;

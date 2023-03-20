@@ -12,6 +12,7 @@ function formatTimestampToHHMM(timestamp) {
 }
 
 export default function Activity({ localId, vacancies, name, start, finish, duration }) {
+  console.log(duration);
   const [isFull, setIsFull] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const { postActivityEnrollment } = usePostActivityEnrollment();
@@ -27,7 +28,7 @@ export default function Activity({ localId, vacancies, name, start, finish, dura
       const data = { activityId: 1 }; //Todo: dynamic activity id
       await postActivityEnrollment(data);
     }
-    
+
     setIsEnrolled(!isEnrolled);
   }
 
