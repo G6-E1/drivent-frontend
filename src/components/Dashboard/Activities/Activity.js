@@ -3,6 +3,10 @@ import { BiLogIn, BiXCircle, BiCheckCircle } from 'react-icons/bi';
 import { useState } from 'react';
 import usePostActivityEnrollment from '../../../hooks/api/usePostActivityEnrollment';
 import useDeleteActivityEnrollment from '../../../hooks/api/useDeleteActivityEnrollment';
+import { useEffect } from 'react';
+import UserContext from '../../../contexts/UserContext';
+import { useContext } from 'react';
+import { toast } from 'react-toastify';
 
 function formatTimestampToHHMM(timestamp) {
   const date = new Date(timestamp);
@@ -11,32 +15,64 @@ function formatTimestampToHHMM(timestamp) {
   return `${hours}:${minutes}`;
 }
 
-export default function Activity({ localId, vacancies, name, start, finish, duration }) {
-  console.log(duration);
+export default function Activity({ id, vacancies, name, start, finish, activityEnrollments, duration }) {
+  const { userData } = useContext(UserContext);
+
   const [isFull, setIsFull] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [enrollments, setEnrollments] = useState(activityEnrollments.length);
   const { postActivityEnrollment } = usePostActivityEnrollment();
   const { deleteActivityEnrollment } = useDeleteActivityEnrollment();
 
   const startHHMM = formatTimestampToHHMM(start);
   const finishHHMM = formatTimestampToHHMM(finish);
 
-  async function enroll() {
-    if (isEnrolled) {
-      await deleteActivityEnrollment(1); //Todo: dynamic activity id
-    } else {
-      const data = { activityId: 1 }; //Todo: dynamic activity id
-      await postActivityEnrollment(data);
-    }
+  useEffect(() => {
+    activityEnrollments.forEach((enrollment) => {
+      if (enrollment.userId === userData.user.id) {
+        setIsEnrolled(true);
+      }
+    });
+  }, []);
 
-    setIsEnrolled(!isEnrolled);
+  useEffect(() => {
+    if (vacancies <= enrollments) {
+      setIsFull(true);
+    } else {
+      setIsFull(false);
+    }
+  }, [enrollments]);
+
+  async function enroll() {
+    try {
+      if (isEnrolled) {
+        await deleteActivityEnrollment(id);
+        setEnrollments(enrollments - 1);
+      } else {
+        const data = { activityId: id };
+        await postActivityEnrollment(data);
+        setEnrollments(enrollments + 1);
+      }
+
+      setIsEnrolled(!isEnrolled);
+    } catch (err) {
+      if (err.response.status === 404) {
+        return toast('Não achamos sua inscrição na atividade! Favor recarregar a página');
+      }
+      if (err.response.status === 409 && err.response.data === 'Conflicting times') {
+        return toast('Horários conflitantes! Inscrição não realizada');
+      }
+      toast('Ocorreu um erro, tente novamente');
+    }
   }
 
   return (
     <ActivityCard duration={duration} isEnrolled={isEnrolled}>
       <About>
         <b>{name}</b>
-        <p>{startHHMM} - {finishHHMM}</p>
+        <p>
+          {startHHMM} - {finishHHMM}
+        </p>
       </About>
 
       <LineDiv isEnrolled={isEnrolled} />
@@ -61,7 +97,7 @@ export default function Activity({ localId, vacancies, name, start, finish, dura
             <JoinIcon>
               <BiLogIn />
             </JoinIcon>
-            <span>27 vagas</span>
+            <span>{vacancies - enrollments} vagas</span>
           </>
         )}
       </JoinButton>
@@ -71,7 +107,7 @@ export default function Activity({ localId, vacancies, name, start, finish, dura
 
 const ActivityCard = styled.div`
   width: 265px;
-  height: ${(props) => props.duration / 3600000 * 80}px;
+  height: ${(props) => (props.duration / 3600000) * 80}px;
   padding: 10px 0px;
   margin-top: 10px;
   background-color: ${(props) => (props.isEnrolled ? '#D0FFDB' : '#f1f1f1')};
