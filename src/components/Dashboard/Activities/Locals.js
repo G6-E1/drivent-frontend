@@ -8,7 +8,6 @@ const locals = [
 ];
 
 export default function Locals({ date }) {
-  console.log('date: ', date);
   return (
     <LocalsContainer>
       {locals.map((local, i) => <Local
