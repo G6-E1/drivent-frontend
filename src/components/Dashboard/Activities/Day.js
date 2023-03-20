@@ -4,9 +4,14 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 dayjs.locale('pt-br');
 
-export default function Day({ idButton, day, selectedDay, setSelectedDay, setdate }) {
+export default function Day({ idButton, day, dates, selectedDay, setSelectedDay, setdate }) {
   let isDisable = idButton === selectedDay;
-  
+  console.log('dia: ', dates[selectedDay]);
+
+  if (dates[selectedDay]) {
+    console.log('olá');
+  }
+
   return (
     <ButtonContainer>
       <Button

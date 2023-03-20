@@ -4,11 +4,22 @@ import { useState } from 'react';
 import usePostActivityEnrollment from '../../../hooks/api/usePostActivityEnrollment';
 import useDeleteActivityEnrollment from '../../../hooks/api/useDeleteActivityEnrollment';
 
-export default function Activity() {
+function formatTimestampToHHMM(timestamp) {
+  const date = new Date(timestamp);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+export default function Activity({ localId, vacancies, name, start, finish, duration }) {
+  console.log(duration);
   const [isFull, setIsFull] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const { postActivityEnrollment } = usePostActivityEnrollment();
   const { deleteActivityEnrollment } = useDeleteActivityEnrollment();
+
+  const startHHMM = formatTimestampToHHMM(start);
+  const finishHHMM = formatTimestampToHHMM(finish);
 
   async function enroll() {
     if (isEnrolled) {
@@ -22,10 +33,10 @@ export default function Activity() {
   }
 
   return (
-    <ActivityCard isEnrolled={isEnrolled}>
+    <ActivityCard duration={duration} isEnrolled={isEnrolled}>
       <About>
-        <b>Minecraft: montando o PC ideal</b>
-        <p>09:00 - 10:00</p>
+        <b>{name}</b>
+        <p>{startHHMM} - {finishHHMM}</p>
       </About>
 
       <LineDiv isEnrolled={isEnrolled} />
@@ -60,8 +71,9 @@ export default function Activity() {
 
 const ActivityCard = styled.div`
   width: 265px;
-  height: 80px;
+  height: ${(props) => props.duration / 3600000 * 80}px;
   padding: 10px 0px;
+  margin-top: 10px;
   background-color: ${(props) => (props.isEnrolled ? '#D0FFDB' : '#f1f1f1')};
   border-radius: 5px;
 
